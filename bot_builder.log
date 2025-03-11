@@ -1,0 +1,45 @@
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-09T14:12:05.266924Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T04:36:38.726914Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T12:24:37.658129Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T12:24:41.236412Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T12:25:02.551291Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T12:30:09.279630Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T14:05:46.324890Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T14:06:33.198405Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'localhost'\")", "status": "failed"}, "timestamp": "2025-03-10T14:07:24.456746Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "'cryptography' package is required for sha256_password or caching_sha2_password auth methods", "status": "failed"}, "timestamp": "2025-03-10T14:51:49.804660Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "'cryptography' package is required for sha256_password or caching_sha2_password auth methods", "status": "failed"}, "timestamp": "2025-03-10T14:52:04.215479Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "'cryptography' package is required for sha256_password or caching_sha2_password auth methods", "status": "failed"}, "timestamp": "2025-03-10T14:52:15.217710Z", "level": "error"}
+{"event": {"action": "db_pool_create", "error": "(1698, \"Access denied for user 'root'@'4312053-wn90998'\")", "status": "failed"}, "timestamp": "2025-03-10T14:53:12.697914Z", "level": "error"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T04:57:37.848527Z", "level": "info"}
+{"event": {"action": "check_user", "error": "(1146, \"Table 'gen_user.users' doesn't exist\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T04:58:36.293610Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1146, \"Table 'gen_user.users' doesn't exist\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T04:58:40.674520Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1146, \"Table 'gen_user.users' doesn't exist\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T04:58:46.215186Z", "level": "error"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T05:01:12.138538Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T09:20:29.192792Z", "level": "info"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:20:54.248554Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:21:01.911283Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:21:04.513144Z", "level": "error"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T09:21:23.685325Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T09:25:25.991873Z", "level": "info"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:57.234710Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:57.889851Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:58.073583Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:58.233529Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:58.393896Z", "level": "error"}
+{"event": {"action": "check_user", "error": "(1054, \"Unknown column 'password' in 'where clause'\")", "status": "failed", "username": "admin"}, "timestamp": "2025-03-11T09:25:58.569979Z", "level": "error"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T09:31:56.755539Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T11:27:01.571404Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T11:30:28.928333Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T11:35:35.092449Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T11:36:34.686345Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T11:39:43.765562Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T11:45:09.938039Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T11:47:02.752587Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T11:51:24.585599Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T11:55:28.450894Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T12:00:20.686936Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T12:07:58.003210Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T12:10:59.268644Z", "level": "info"}
+{"event": {"action": "db_pool_create", "status": "success", "host": "localhost"}, "timestamp": "2025-03-11T12:11:41.120373Z", "level": "info"}
+{"event": {"action": "db_pool_close", "status": "success"}, "timestamp": "2025-03-11T12:12:34.698195Z", "level": "info"}

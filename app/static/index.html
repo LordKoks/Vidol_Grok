@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Создавайте ботов с 3D-магией в Telegram Bot Builder">
+    <title>Шедевр Ботов - 3D Дизайн</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css" onload="console.log('style.css loaded')" onerror="console.error('style.css failed to load')">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Great+Vibes&display=swap" rel="stylesheet" onload="console.log('Google Fonts loaded')" onerror="console.error('Google Fonts failed to load')">
+</head>
+<body class="dark-theme">
+    <div class="theme-toggle">
+        <button id="themeToggle" aria-label="Переключить тему">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path id="sun-icon" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                <path id="moon-icon" class="hidden" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="hero">
+        <div id="three-canvas" class="three-canvas">
+            <div id="three-loading" class="three-loading">
+                <div class="spinner-inner"></div>
+                <p>Загрузка 3D-сцены...</p>
+            </div>
+        </div>
+        <div class="overlay">
+            <h1>Добро пожаловать в мир ботов и 3D-магии</h1>
+            <p>Создайте бота с магией Титаника, грацией Мэрилин и духом 101 далматинца!</p>
+            <div class="button-group">
+                <button onclick="showAuthModal()" class="btn btn-primary" aria-label="Вход">Вход</button>
+                <button onclick="showBotCreationModal()" class="btn btn-secondary" aria-label="Создать бота">Создать бота</button>
+                <button onclick="generateNodeWithAI()" class="btn btn-tertiary" aria-label="Генерировать узел с ИИ">Генерировать узел с ИИ</button>
+            </div>
+        </div>
+    </div>
+    <div id="authModal" class="modal" role="dialog" aria-labelledby="authModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('authModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="authModalTitle">Вход в систему</h2>
+            <form id="authForm" onsubmit="event.preventDefault(); login();">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Введите логин" required aria-label="Логин">
+                    <span class="error-message" id="usernameError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Введите пароль" required aria-label="Пароль">
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+            <p>Нет аккаунта? <a href="#" onclick="showRegistrationModal()">Зарегистрироваться</a></p>
+        </div>
+    </div>
+    <div id="registrationModal" class="modal" role="dialog" aria-labelledby="registrationModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registrationModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="registrationModalTitle">Регистрация</h2>
+            <form id="registrationForm" onsubmit="event.preventDefault(); register();">
+                <div class="form-group">
+                    <input type="text" id="regUsername" placeholder="Придумайте логин" required aria-label="Логин">
+                    <span class="error-message" id="regUsernameError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Придумайте пароль" required aria-label="Пароль">
+                    <span class="error-message" id="regPasswordError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Ваш email (mail.ru)" required pattern=".+@mail\.ru" title="Только mail.ru почта" aria-label="Электронная почта">
+                    <span class="error-message" id="regEmailError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+    <div id="verifyModal" class="modal" role="dialog" aria-labelledby="verifyModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('verifyModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="verifyModalTitle">Подтверждение email</h2>
+            <form id="verifyForm" onsubmit="event.preventDefault(); verifyEmail();">
+                <div class="form-group">
+                    <input type="text" id="verificationCode" placeholder="Введите код из письма" required aria-label="Код подтверждения">
+                    <span class="error-message" id="verificationCodeError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Подтвердить</button>
+            </form>
+        </div>
+    </div>
+    <div id="botCreationModal" class="modal" role="dialog" aria-labelledby="botCreationModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('botCreationModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="botCreationModalTitle">Создание бота</h2>
+            <form id="botCreationForm" onsubmit="event.preventDefault(); createBot();">
+                <div class="form-group">
+                    <input type="text" id="botName" placeholder="Имя бота" required aria-label="Имя бота">
+                    <span class="error-message" id="botNameError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="botToken" placeholder="Токен бота" required aria-label="Токен бота">
+                    <span class="error-message" id="botTokenError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Создать</button>
+            </form>
+        </div>
+    </div>
+    <div id="nodeCreationModal" class="modal" role="dialog" aria-labelledby="nodeCreationModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('nodeCreationModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="nodeCreationModalTitle">Добавление узла</h2>
+            <form id="nodeCreationForm" onsubmit="event.preventDefault(); addNode();">
+                <div class="form-group">
+                    <input type="text" id="nodeText" placeholder="Текст узла" required aria-label="Текст узла">
+                    <span class="error-message" id="nodeTextError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="nextNode" placeholder="ID следующего узла (опционально)" aria-label="ID следующего узла">
+                    <span class="error-message" id="nextNodeError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
+        </div>
+    </div>
+    <div id="canvas" class="canvas" aria-label="Панель узлов"></div>
+    <div id="aiConfigModal" class="modal" role="dialog" aria-labelledby="aiConfigModalTitle">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('aiConfigModal')" aria-label="Закрыть модальное окно">×</span>
+            <h2 id="aiConfigModalTitle">Настройка ИИ</h2>
+            <form id="aiConfigForm" onsubmit="event.preventDefault(); configureAI();">
+                <div class="form-group">
+                    <select id="aiProvider" onchange="toggleCustomAIFields()" required aria-label="Провайдер ИИ">
+                        <option value="" disabled selected>Выберите провайдера</option>
+                        <option value="grok3">Grok 3</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="deepseek">DeepSeek</option>
+                        <option value="custom">Custom AI</option>
+                    </select>
+                    <span class="error-message" id="aiProviderError"></span>
+                </div>
+                <div id="customAIFields" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" id="customAIName" placeholder="Имя провайдера" aria-label="Имя провайдера">
+                        <span class="error-message" id="customAINameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="customAIUrl" placeholder="URL API (например, https://api.custom.ai)" aria-label="URL API">
+                        <span class="error-message" id="customAIUrlError"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="aiKey" placeholder="API ключ" required aria-label="API ключ">
+                    <span class="error-message" id="aiKeyError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+    <div id="loadingSpinner" class="spinner" aria-hidden="true">
+        <div class="spinner-inner"></div>
+    </div>
+    <script src="/static/three.min.js" defer onload="console.log('three.min.js loaded')" onerror="console.error('three.min.js failed to load'); loadFromCDN('three')"></script>
+    <script src="/static/tween.min.js" defer onload="console.log('tween.min.js loaded')" onerror="console.error('tween.min.js failed to load'); loadFromCDN('tween')"></script>
+    <script src="/static/three-script.js" defer onload="console.log('three-script.js loaded')" onerror="console.error('three-script.js failed to load')"></script>
+    <script src="/static/script.js" defer onload="console.log('script.js loaded')" onerror="console.error('script.js failed to load')"></script>
+    <script>
+        function loadFromCDN(library) {
+            if (library === 'three') {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/three@0.153.0/build/three.min.js';
+                script.onload = () => console.log('three.min.js loaded from CDN');
+                script.onerror = () => console.error('Failed to load three.min.js from CDN');
+                document.body.appendChild(script);
+            } else if (library === 'tween') {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@tweenjs/tween.js@18.6.4/dist/tween.umd.js';
+                script.onload = () => console.log('tween.umd.js loaded from CDN');
+                script.onerror = () => console.error('Failed to load tween.umd.js from CDN');
+                document.body.appendChild(script);
+            }
+        }
+    </script>
+</body>
+</html>

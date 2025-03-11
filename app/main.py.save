@@ -1,0 +1,31 @@
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from app.api.bot import router as bot_router
+from app.utils.logger import logger
+from app.utils.config import Config
+import uvicorn
+from app.bot.handlers import shutdown_bots
+
+app = FastAPI(title="BotCreator")
+
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.on_event("startup")
+async def startup_event():
+8    logger.info(f"Сервер запущен на {Config.SERVER_HOST}:{Config.SERVER_PORT}")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    logger.info("Остановка сервера, завершение ботов")
+    await shutdown_bots()
+
+@app.get("/", response_class=HTMLResponse)
+async def read_index():
+    with open("app/static/index.html", "r", encoding="utf-8") as f:
+        return f.read()
+
+app.include_router(bot_router, prefix="/api")
+
+if __name__ == "__main__":
+    uvicorn.run(app, host=Config.SERVER_HOST, port=Config.SERVER_PORT)

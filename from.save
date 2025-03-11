@@ -1,0 +1,17 @@
+from app.utils.auth import get_current_user
+from app.bot.handlers import configure_ai
+from pydantic import BaseModel
+
+router = APIRouter()
+
+class AIConfig(BaseModel):
+    aiApiKey: str
+    aiProvider: str
+
+@router.post("/configure-ai/{token}")
+async def configure_ai_endpoint(token: str, ai_config: AIConfig, current_user=Depends(get_current_user)):
+    try:
+        await configure_ai(token, ai_config.dict())
+        return {"message": "AI успешно настроен для бота"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

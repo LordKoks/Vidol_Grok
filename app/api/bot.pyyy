@@ -1,0 +1,77 @@
+ю
+from fastapi import APIRouter, HTTPException
+from app.models.bot import BotCreate, NodeCreate
+from app.bot.handlers import start_bot, add_node
+from app.utils.logger import logger
+from app.utils.config import Config
+import re
+import asyncmy
+import asyncio
+
+router = APIRouter()
+
+async def get_db_connection():
+#    try:
+ #       conn = await asyncmy.connect(
+  #          host=Config.DB_HOST,
+   #         user=Config.DB_USER,
+    #        password=Config.DB_PASSWORD,
+     #       db=Config.DB_NAME
+      #  )
+       # return conn
+    #except Exception as e:
+     #   logger.error(f"Ошибка подключения к базе данных: {str(e)}")
+      #  raise HTTPException(status_code=500, detail=f"Ошибка подключения к базе: {str(e)}")
+
+async def get_bot_nodes(token: str):
+    nodes = []
+    async with await get_db_connection() as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT node_id, text, next_node FROM nodes WHERE token = %s", (token,))
+            rows = await cursor.fetchall()
+            for row in rows:
+                nodes.append({"id": row[0], "text": row[1], "next": row[2]})
+    return nodes
+
+@router.post("/create-bot")
+async def create_bot(bot_data: BotCreate):
+    # Проверка на пустые поля
+    if not bot_data.name.strip():
+        raise HTTPException(status_code=422, detail="Имя бота не может быть пустым")
+    if not bot_data.token.strip():
+        raise HTTPException(status_code=422, detail="Токен бота не может быть пустым")
+    if not re.match(r"^\d+:[\w-]{35}$", bot_data.token):
+        raise HTTPException(status_code=400, detail="Неверный формат токена")
+    
+    #async with await get_db_connection() as conn:
+     #   async with conn.cursor() as cursor:
+      #      await cursor.execute("SELECT token FROM bots WHERE token = %s", (bot_data.token,))
+       #     if await cursor.fetchone():
+        #        raise HTTPException(status_code=400, detail="Бот уже существует")
+         #   await cursor.execute("INSERT INTO bots (token, name) VALUES (%s, %s)", (bot_data.token, bot_data.name))
+          #  await conn.commit()
+    
+    await start_bot(bot_data.token, bot_data.name)
+    logger.info(f"Бот {bot_data.name} создан")
+    return {"message": f"Бот {bot_data.name} создан", "token": bot_data.token}
+
+@router.post("/add-node/{token}")
+async def add_node_to_bot(token: str, node: NodeCreate):
+    if not node.id.strip() or not node.text.strip():
+        raise HTTPException(status_code=422, detail="ID узла и текст не могут быть пустыми")
+    async with await get_db_connection() as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT 1 FROM bots WHERE token = %s", (token,))
+            if not await cursor.fetchone():
+                raise HTTPException(status_code=400, detail="Бот не найден")
+            await cursor.execute("INSERT INTO nodes (token, node_id, text, next_node) VALUES (%s, %s, %s, %s)",
+                                (token, node.id, node.text, node.next))
+            await conn.commit()
+    await add_node(token, {"id": node.id, "text": node.text, "next": node.next})
+    logger.info(f"Добавлен узел {node.id} для бота")
+    return {"message": "Узел добавлен"}
+
+@router.get("/nodes/{token}")
+async def get_nodes(token: str):
+    nodes = await get_bot_nodes(token)
+    return nodes

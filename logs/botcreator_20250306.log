@@ -1,0 +1,28 @@
+2025-03-06 17:44:09,771 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-06 17:44:14,988 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-06 17:44:31,351 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-06 17:46:54,630 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-06 17:54:17,941 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-06 17:55:26,887 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-06 17:55:26,888 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-06 17:55:26,892 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-06 17:55:26,892 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-06 17:56:53,676 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-06 17:56:53,676 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-06 17:56:53,676 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-06 17:56:53,676 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-06 17:56:53,677 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-06 17:56:53,677 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-06 17:56:53,677 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-06 17:56:53,677 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-06 17:56:53,677 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-06 17:56:53,679 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-06 17:56:53,680 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-06 18:00:29,886 - BotCreator - INFO - Остановка сервера, завершение ботов

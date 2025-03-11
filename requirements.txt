@@ -1,0 +1,12 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+pydantic==1.10.15
+aiomysql==0.2.0
+structlog==24.1.0
+prometheus-fastapi-instrumentator==6.0.0
+whitenoise==6.6.0
+sentry-sdk==2.0.0
+fastapi-csrf-protect==0.3.2
+python-dotenv==1.0.1
+pillow==10.3.0
+numpy==1.26.4

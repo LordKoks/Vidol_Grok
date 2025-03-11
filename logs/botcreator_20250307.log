@@ -1,0 +1,417 @@
+2025-03-07 01:49:08,937 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 01:49:59,150 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 01:49:59,151 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 01:49:59,152 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 01:49:59,152 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 01:49:59,155 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 01:49:59,155 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 01:50:38,897 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 01:50:38,902 - BotCreator - DEBUG - Создание бота с именем: Vidol32, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:50:38,917 - BotCreator - INFO - Запуск бота Vidol32 в режиме polling
+2025-03-07 01:50:38,918 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 01:50:39,206 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 01:50:39,918 - BotCreator - INFO - Бот Vidol32 создан или перезапущен
+2025-03-07 01:51:02,591 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 01:51:02,594 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: 1
+2025-03-07 01:51:02,595 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:51:02,595 - BotCreator - INFO - Добавлен узел 1 для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:51:22,457 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 01:51:22,458 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: 2
+2025-03-07 01:51:22,458 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:51:22,458 - BotCreator - INFO - Добавлен узел 2 для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:51:33,096 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 01:51:33,096 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: 2
+2025-03-07 01:51:33,096 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:51:33,096 - BotCreator - INFO - Добавлен узел 2 для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 01:52:04,319 - BotCreator - WARNING - Функция get_bot_nodes отключена из-за отсутствия базы данных
+2025-03-07 01:52:04,619 - BotCreator - INFO - Бот Vidol32 обработал /start для 8182894662
+2025-03-07 01:52:04,619 - aiogram.event - INFO - Update id=12585667 is handled. Duration 301 ms by bot id=7538739924
+2025-03-07 01:52:09,641 - aiogram.event - INFO - Update id=12585668 is not handled. Duration 0 ms by bot id=7538739924
+2025-03-07 01:59:32,495 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 01:59:32,496 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 01:59:32,496 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 02:10:21,899 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 02:10:21,899 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 02:11:02,332 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 02:11:37,193 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 02:11:37,194 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 02:11:37,196 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 02:11:37,196 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 02:12:12,638 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 02:12:12,643 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok_Bot, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:12:12,658 - BotCreator - INFO - Запуск бота Vidol_Grok_Bot в режиме polling
+2025-03-07 02:12:12,658 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 02:12:12,952 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 02:12:13,658 - BotCreator - INFO - Бот Vidol_Grok_Bot создан или перезапущен
+2025-03-07 02:12:38,583 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 02:12:38,587 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: Start
+2025-03-07 02:12:38,587 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:12:38,587 - BotCreator - INFO - Добавлен узел Start для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:13:16,122 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 02:13:16,123 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: 2
+2025-03-07 02:13:16,123 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:13:16,123 - BotCreator - INFO - Добавлен узел 2 для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:13:35,624 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 02:13:35,625 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: Menu
+2025-03-07 02:13:35,625 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:13:35,625 - BotCreator - INFO - Добавлен узел Menu для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:14:06,822 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:14:07,120 - BotCreator - INFO - Бот Vidol_Grok_Bot обработал /start для 8182894662
+2025-03-07 02:14:07,120 - aiogram.event - INFO - Update id=12585669 is handled. Duration 298 ms by bot id=7538739924
+2025-03-07 02:14:23,282 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:14:23,384 - aiogram.event - INFO - Update id=12585670 is handled. Duration 103 ms by bot id=7538739924
+2025-03-07 02:14:26,623 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:14:26,739 - aiogram.event - INFO - Update id=12585671 is handled. Duration 116 ms by bot id=7538739924
+2025-03-07 02:14:29,399 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 02:14:29,505 - aiogram.event - INFO - Update id=12585672 is handled. Duration 106 ms by bot id=7538739924
+2025-03-07 02:16:10,677 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 02:16:10,679 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 02:16:10,679 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 05:00:45,851 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_name with data[10:18]
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:01:39,344 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 05:01:39,346 - BotCreator - DEBUG - Попытка логина: получены данные - username: , password: 
+2025-03-07 05:01:39,347 - BotCreator - ERROR - Неуспешный логин для пользователя: 
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:02:27,413 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 05:02:27,414 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 05:02:27,414 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:02:27,414 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 05:02:27,415 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 05:02:27,416 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:02:37,319 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 05:02:37,321 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: 
+2025-03-07 05:02:37,321 - BotCreator - ERROR - Неуспешный логин для пользователя: admin
+2025-03-07 05:03:04,038 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:03:04,038 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 05:03:04,038 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 05:03:04,038 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:03:04,039 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:03:04,039 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 05:03:04,039 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 05:03:04,039 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:03:04,039 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 05:03:04,040 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 05:03:04,040 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 05:03:17,305 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 05:03:17,307 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok_Bot, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:03:17,321 - BotCreator - INFO - Запуск бота Vidol_Grok_Bot в режиме polling
+2025-03-07 05:03:17,321 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 05:03:17,730 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 05:03:18,323 - BotCreator - INFO - Бот Vidol_Grok_Bot создан или перезапущен
+2025-03-07 05:03:40,526 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 05:03:40,527 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok_Bot, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:03:40,527 - BotCreator - WARNING - Бот с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y уже запущен, перезапуск
+2025-03-07 05:03:40,528 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 05:03:40,779 - BotCreator - INFO - Polling для бота 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y остановлен
+2025-03-07 05:03:40,779 - BotCreator - INFO - Запуск бота Vidol_Grok_Bot в режиме polling
+2025-03-07 05:03:40,780 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 05:03:40,780 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 05:03:41,111 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [Errno 1] [SSL: APPLICATION_DATA_AFTER_CLOSE_NOTIFY] application data after close notify (_ssl.c:2775)
+2025-03-07 05:03:41,111 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 7538739924)
+2025-03-07 05:03:41,780 - BotCreator - INFO - Бот Vidol_Grok_Bot создан или перезапущен
+2025-03-07 05:03:45,392 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-03-07 05:03:45,392 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 7538739924)
+2025-03-07 05:03:46,483 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-03-07 05:03:46,484 - aiogram.dispatcher - WARNING - Sleep for 1.416439 seconds and try again... (tryings = 1, bot id = 7538739924)
+2025-03-07 05:03:50,993 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-03-07 05:03:50,993 - aiogram.dispatcher - WARNING - Sleep for 1.311445 seconds and try again... (tryings = 1, bot id = 7538739924)
+2025-03-07 05:03:52,394 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-03-07 05:03:52,394 - aiogram.dispatcher - WARNING - Sleep for 1.739143 seconds and try again... (tryings = 2, bot id = 7538739924)
+2025-03-07 05:03:53,610 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 05:03:53,610 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 05:03:53,610 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 05:26:24,263 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 05:27:20,919 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:27:20,920 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 05:27:20,920 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 05:27:20,920 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:27:20,920 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 05:27:20,921 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 05:27:20,921 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 05:27:20,921 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 05:27:20,921 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 05:27:20,923 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 05:27:20,923 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 05:28:25,900 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 05:28:25,903 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok_Bot, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:28:25,918 - BotCreator - INFO - Запуск бота Vidol_Grok_Bot в режиме polling
+2025-03-07 05:28:25,919 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 05:28:26,314 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 05:28:26,919 - BotCreator - INFO - Бот Vidol_Grok_Bot создан или перезапущен
+2025-03-07 05:28:39,788 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 05:28:39,788 - BotCreator - DEBUG - Удаление всех узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:28:39,789 - BotCreator - INFO - Все узлы удалены для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:28:57,002 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:28:57,330 - BotCreator - INFO - Бот Vidol_Grok_Bot обработал /start для 8182894662
+2025-03-07 05:28:57,330 - aiogram.event - INFO - Update id=12585673 is handled. Duration 328 ms by bot id=7538739924
+2025-03-07 05:29:03,142 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:29:03,341 - aiogram.event - INFO - Update id=12585674 is handled. Duration 198 ms by bot id=7538739924
+2025-03-07 05:29:05,595 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 05:29:05,868 - aiogram.event - INFO - Update id=12585675 is handled. Duration 273 ms by bot id=7538739924
+2025-03-07 05:29:30,848 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 05:29:30,850 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 05:29:30,850 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 08:09:03,996 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 08:10:39,288 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 08:10:39,289 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 08:10:39,291 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 08:10:39,292 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 08:11:33,684 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 08:11:33,687 - BotCreator - DEBUG - Создание бота с именем: Vidol, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 08:11:33,700 - BotCreator - INFO - Запуск бота Vidol в режиме polling
+2025-03-07 08:11:33,701 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 08:11:33,998 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 08:11:34,701 - BotCreator - INFO - Бот Vidol создан или перезапущен
+2025-03-07 08:12:25,664 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 08:12:26,121 - aiogram.event - INFO - Update id=12585676 is handled. Duration 457 ms by bot id=7538739924
+2025-03-07 08:12:28,348 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 08:12:28,650 - aiogram.event - INFO - Update id=12585677 is handled. Duration 301 ms by bot id=7538739924
+2025-03-07 08:12:33,992 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 08:12:33,993 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 08:12:33,993 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 10:05:26,962 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 10:06:20,367 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 10:06:20,368 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 10:06:20,372 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 10:06:20,372 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 10:12:12,750 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 10:12:12,751 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 10:12:12,751 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 10:12:12,751 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 10:12:12,752 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 10:12:12,752 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 10:12:12,752 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 10:12:12,752 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 10:12:12,752 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 10:12:12,754 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 10:12:12,755 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 10:13:06,265 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 10:13:06,268 - BotCreator - DEBUG - Создание бота с именем: Vidol, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 10:13:06,279 - BotCreator - INFO - Запуск бота Vidol в режиме polling
+2025-03-07 10:13:06,280 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 10:13:06,576 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 10:13:07,280 - BotCreator - INFO - Бот Vidol создан или перезапущен
+2025-03-07 10:18:32,559 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 10:18:32,560 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 10:18:32,560 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 11:55:41,554 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 11:56:05,709 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 11:56:05,710 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 11:56:05,713 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 11:56:05,713 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 11:56:40,568 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 11:56:40,573 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 11:56:40,584 - BotCreator - INFO - Запуск бота Vidol_Grok в режиме polling
+2025-03-07 11:56:40,584 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 11:56:40,868 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 11:56:41,585 - BotCreator - INFO - Бот Vidol_Grok создан или перезапущен
+2025-03-07 12:04:32,150 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:05:31,240 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:05:31,241 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 12:05:31,262 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 12:05:31,263 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 12:06:07,630 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 12:06:07,636 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:06:07,656 - BotCreator - INFO - Запуск бота Vidol_Grok в режиме polling
+2025-03-07 12:06:07,657 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 12:06:07,953 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 12:06:08,072 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:06:08,658 - BotCreator - INFO - Бот Vidol_Grok создан или перезапущен
+2025-03-07 12:06:08,685 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:06:08,685 - aiogram.event - INFO - Update id=12585683 is handled. Duration 614 ms by bot id=7538739924
+2025-03-07 12:07:05,853 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 12:07:05,855 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 12:07:05,855 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 12:07:22,098 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:07:22,099 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 12:07:28,978 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:07:28,979 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 12:07:44,758 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:07:44,758 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 12:08:04,905 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:08:04,906 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 12:08:42,996 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:09:32,083 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:09:32,084 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 12:09:32,086 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 12:09:32,087 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 12:10:15,035 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 12:10:15,039 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:15,052 - BotCreator - INFO - Запуск бота Vidol_Grok в режиме polling
+2025-03-07 12:10:15,053 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 12:10:15,353 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 12:10:16,053 - BotCreator - INFO - Бот Vidol_Grok создан или перезапущен
+2025-03-07 12:10:41,922 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:42,548 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:10:42,549 - aiogram.event - INFO - Update id=12585684 is handled. Duration 627 ms by bot id=7538739924
+2025-03-07 12:10:46,121 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:46,432 - aiogram.event - INFO - Update id=12585685 is handled. Duration 311 ms by bot id=7538739924
+2025-03-07 12:10:48,799 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:49,227 - aiogram.event - INFO - Update id=12585686 is handled. Duration 427 ms by bot id=7538739924
+2025-03-07 12:10:50,770 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:51,178 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:10:51,178 - aiogram.event - INFO - Update id=12585687 is handled. Duration 409 ms by bot id=7538739924
+2025-03-07 12:10:52,709 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:10:53,166 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:10:53,167 - aiogram.event - INFO - Update id=12585688 is handled. Duration 457 ms by bot id=7538739924
+2025-03-07 12:11:01,596 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:11:01,756 - aiogram.event - INFO - Update id=12585689 is handled. Duration 160 ms by bot id=7538739924
+2025-03-07 12:11:03,659 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:11:03,800 - aiogram.event - INFO - Update id=12585690 is handled. Duration 140 ms by bot id=7538739924
+2025-03-07 12:11:08,944 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:11:09,118 - aiogram.event - INFO - Update id=12585691 is handled. Duration 174 ms by bot id=7538739924
+2025-03-07 12:11:12,860 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:11:13,274 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:11:13,275 - aiogram.event - INFO - Update id=12585692 is handled. Duration 415 ms by bot id=7538739924
+2025-03-07 12:12:14,268 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:12:14,461 - aiogram.event - INFO - Update id=12585693 is handled. Duration 193 ms by bot id=7538739924
+2025-03-07 12:12:15,471 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:12:15,662 - aiogram.event - INFO - Update id=12585694 is handled. Duration 190 ms by bot id=7538739924
+2025-03-07 12:12:19,106 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 12:12:19,530 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 12:12:19,530 - aiogram.event - INFO - Update id=12585695 is handled. Duration 425 ms by bot id=7538739924
+2025-03-07 12:12:24,138 - aiogram.dispatcher - WARNING - Received SIGINT signal
+2025-03-07 12:12:24,139 - aiogram.dispatcher - INFO - Polling stopped for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 12:12:24,139 - aiogram.dispatcher - INFO - Polling stopped
+2025-03-07 12:13:58,230 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:13:58,231 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 12:15:14,608 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 12:15:33,582 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_field_name with data[10:18]
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:15:33,583 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 12:15:33,585 - BotCreator - DEBUG - Попытка логина: получены данные - username: , password: 
+2025-03-07 12:15:33,585 - BotCreator - ERROR - Неуспешный логин для пользователя: 
+2025-03-07 12:16:02,045 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:16:02,046 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 12:16:02,046 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 12:16:02,046 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:16:02,046 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 12:16:02,046 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 12:16:02,047 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 12:16:02,047 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 12:16:02,047 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 12:16:02,049 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 12:16:02,049 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 13:53:21,530 - asyncio - DEBUG - Using selector: EpollSelector
+2025-03-07 13:53:21,549 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 13:54:06,347 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 13:54:06,347 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 13:54:06,348 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 13:54:06,348 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 13:54:06,348 - python_multipart.multipart - DEBUG - Calling on_field_name with data[10:18]
+2025-03-07 13:54:06,348 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 13:54:06,348 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 13:54:06,350 - BotCreator - DEBUG - Попытка логина: получены данные - username: , password: 
+2025-03-07 13:54:06,350 - BotCreator - ERROR - Неуспешный логин для пользователя: 
+2025-03-07 16:17:36,358 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 16:21:00,828 - BotCreator - INFO - Остановка сервера, завершение ботов
+2025-03-07 16:45:08,972 - BotCreator - INFO - Сервер запущен на 109.71.242.77:3386
+2025-03-07 16:45:47,070 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_name with data[0:8]
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_data with data[9:14]
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_start with no data
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_name with data[15:23]
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_data with data[24:35]
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_field_end with no data
+2025-03-07 16:45:47,071 - python_multipart.multipart - DEBUG - Calling on_end with no data
+2025-03-07 16:45:47,074 - BotCreator - DEBUG - Попытка логина: получены данные - username: admin, password: password123
+2025-03-07 16:45:47,074 - BotCreator - INFO - Успешный логин для пользователя: admin
+2025-03-07 16:46:31,387 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 16:46:31,392 - BotCreator - DEBUG - Создание бота с именем: Vidol_Grok, токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:46:31,403 - BotCreator - INFO - Запуск бота Vidol_Grok в режиме polling
+2025-03-07 16:46:31,404 - aiogram.dispatcher - INFO - Start polling
+2025-03-07 16:46:31,731 - aiogram.dispatcher - INFO - Run polling for bot @Vidol_Grok_Bot id=7538739924 - 'Vidol_Grok'
+2025-03-07 16:46:31,865 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:46:32,404 - BotCreator - INFO - Бот Vidol_Grok создан или перезапущен
+2025-03-07 16:46:32,512 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 16:46:32,512 - aiogram.event - INFO - Update id=12585696 is handled. Duration 647 ms by bot id=7538739924
+2025-03-07 16:51:10,232 - BotCreator - INFO - Успешная авторизация с токеном: auth-token-123
+2025-03-07 16:51:10,237 - BotCreator - DEBUG - Добавление узла для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y, ID: 1, Options: ['Da', 'net']
+2025-03-07 16:51:10,237 - BotCreator - INFO - Обновление узлов для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:51:10,238 - BotCreator - INFO - Добавлен узел 1 для бота с токеном 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:51:41,832 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:51:43,404 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 16:51:43,405 - aiogram.event - INFO - Update id=12585697 is handled. Duration 1573 ms by bot id=7538739924
+2025-03-07 16:51:45,889 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:51:46,061 - aiogram.event - INFO - Update id=12585698 is handled. Duration 172 ms by bot id=7538739924
+2025-03-07 16:52:00,093 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:52:00,505 - BotCreator - ERROR - Ошибка обработки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 16:52:00,505 - aiogram.event - INFO - Update id=12585699 is handled. Duration 412 ms by bot id=7538739924
+2025-03-07 16:52:02,851 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:52:03,050 - aiogram.event - INFO - Update id=12585700 is handled. Duration 198 ms by bot id=7538739924
+2025-03-07 16:52:07,039 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:52:07,160 - aiogram.event - INFO - Update id=12585701 is handled. Duration 120 ms by bot id=7538739924
+2025-03-07 16:52:10,310 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:52:10,783 - BotCreator - ERROR - Ошибка отправки сообщения: Telegram server says - Bad Request: can't parse entities: Unclosed start tag at byte offset 5
+2025-03-07 16:52:10,784 - aiogram.event - INFO - Update id=12585702 is handled. Duration 474 ms by bot id=7538739924
+2025-03-07 16:52:26,547 - BotCreator - DEBUG - Получение узлов для бота с токеном: 7538739924:AAGPyZebVyy9tz5Tmy-yu9RQbzaem3iKL7Y
+2025-03-07 16:52:26,704 - aiogram.event - INFO - Update id=12585703 is handled. Duration 157 ms by bot id=7538739924

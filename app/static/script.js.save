@@ -1,0 +1,431 @@
+
+
+let botNodes = JSON.parse(localStorage.getItem('botNodes')) || {};
+let currentBotToken = localStorage.getItem('currentBotToken') || '';
+
+function logButtonClick(buttonName, action) {
+    console.log(`[Button Click] ${buttonName}: Action "${action}" triggered at ${new Date().toISOString()}`);
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('class', 'sr-only');
+    liveRegion.textContent = `Нажата кнопка ${buttonName}: ${action}`;
+    document.body.appendChild(liveRegion);
+    setTimeout(() => liveRegion.remove(), 3000);
+}
+
+function logError(buttonName, action, error) {
+    console.error(`[Button Error] ${buttonName}: Action "${action}" failed at ${new Date().toISOString()} with error: ${error.message}`);
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('class', 'sr-only');
+    liveRegion.textContent = `Ошибка на кнопке ${buttonName}: ${error.message}`;
+    document.body.appendChild(liveRegion);
+    setTimeout(() => liveRegion.remove(), 3000);
+}
+
+function closeAllModals() {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        modal.classList.remove('active');
+        modal.style.opacity = '0';
+        setTimeout(() => modal.style.display = 'none', 500);
+    });
+}
+
+function showModal(modalId) {
+    try {
+        closeAllModals();
+        const modal = document.getElementById(modalId);
+        if (!modal) throw new Error(`Modal with ID ${modalId} not found`);
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('active');
+            modal.style.opacity = '1';
+            modal.querySelector('input, select')?.focus();
+        }, 50);
+        logButtonClick(modalId, `Show ${modalId}`);
+    } catch (error) {
+        logError(modalId, `Show ${modalId}`, error);
+    }
+}
+
+function closeModal(modalId) {
+    try {
+        const modal = document.getElementById(modalId);
+        if (!modal) throw new Error(`Modal with ID ${modalId} not found`);
+        modal.classList.remove('active');
+        modal.style.opacity = '0';
+        modal.addEventListener('transitionend', () => {
+            modal.style.display = 'none';
+            modal.style.opacity = '1';
+            clearFormErrors(modal);
+            const liveRegion = document.createElement('div');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('class', 'sr-only');
+            liveRegion.textContent = 'Модальное окно закрыто';
+            document.body.appendChild(liveRegion);
+            setTimeout(() => liveRegion.remove(), 3000);
+        }, { once: true });
+        logButtonClick(modalId, `Close ${modalId}`);
+    } catch (error) {
+        logError(modalId, `Close ${modalId}`, error);
+    }
+}
+
+function showSpinner() {
+    document.getElementById('loadingSpinner').classList.add('active');
+}
+
+function hideSpinner() {
+    document.getElementById('loadingSpinner').classList.remove('active');
+}
+
+function validateInput(input, errorElement, message) {
+    if (!input.value.trim()) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        return false;
+    }
+    errorElement.style.display = 'none';
+    return true;
+}
+
+function clearFormErrors(modal) {
+    const errors = modal.querySelectorAll('.error-message');
+    errors.forEach(error => {
+        error.style.display = 'none';
+        error.textContent = '';
+    });
+}
+
+function toggleCustomAIFields() {
+    const provider = document.getElementById('aiProvider');
+    const customFields = document.getElementById('customAIFields');
+    const customAIName = document.getElementById('customAIName');
+    const customAIUrl = document.getElementById('customAIUrl');
+    customFields.style.display = provider.value === 'custom' ? 'block' : 'none';
+    if (provider.value === 'custom') {
+        customAIName.setAttribute('required', 'required');
+        customAIUrl.setAttribute('required', 'required');
+    } else {
+        customAIName.removeAttribute('required');
+        customAIUrl.removeAttribute('required');
+    }
+}
+
+function showAuthModal() {
+    showModal('authModal');
+}
+
+function showBotCreationModal() {
+    showModal('botCreationModal');
+}
+
+function showNodeCreationModal() {
+    showModal('nodeCreationModal');
+}
+
+function showAIConfigModal() {
+    showModal('aiConfigModal');
+}
+
+function login() {
+    try {
+        logButtonClick('LoginSubmitButton', 'login');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const usernameError = document.getElementById('usernameError');
+        const passwordError = document.getElementById('passwordError');
+        const isUsernameValid = validateInput(username, usernameError, 'Введите логин');
+        const isPasswordValid = validateInput(password, passwordError, 'Введите пароль');
+        if (!isUsernameValid || !isPasswordValid) return;
+        console.log(`Login attempt: ${username.value}, ${password.value}`);
+        closeModal('authModal');
+        document.getElementById('authForm').reset();
+        alert('Вход выполнен успешно!');
+    } catch (error) {
+        logError('LoginSubmitButton', 'login', error);
+    }
+}
+
+// Функция для получения CSRF-токена
+async function getCsrfToken() {
+    try {
+        const response = await fetch('/api/csrf-token', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) throw new Error('Ошибка получения CSRF-токена');
+        const data = await response.json();
+        return data.csrf_token;
+    } catch (error) {
+        console.error('Ошибка получения CSRF-токена:', error);
+        throw error;
+    }
+}
+
+async function createBot() {
+    try {
+        logButtonClick('CreateBotSubmitButton', 'createBot');
+        const botName = document.getElementById('botName');
+        const botToken = document.getElementById('botToken');
+        const botNameError = document.getElementById('botNameError');
+        const botTokenError = document.getElementById('botTokenError');
+        const isBotNameValid = validateInput(botName, botNameError, 'Введите имя бота');
+        const isBotTokenValid = validateInput(botToken, botTokenError, 'Введите токен бота');
+        if (!isBotNameValid || !isBotTokenValid) return;
+
+        showSpinner();
+        const csrfToken = await getCsrfToken();
+        const response = await fetch('/api/create-bot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ name: botName.value, token: botToken.value })
+        });
+        if (!response.ok) throw new Error('Ошибка сервера');
+        const data = await response.json();
+        currentBotToken = botToken.value;
+        localStorage.setItem('currentBotToken', currentBotToken);
+        alert('Бот успешно создан!');
+        closeModal('botCreationModal');
+        document.getElementById('botCreationForm').reset();
+    } catch (error) {
+        logError('CreateBotSubmitButton', 'createBot', error);
+        alert('Ошибка при создании бота.');
+    } finally {
+        hideSpinner();
+    }
+}
+
+async function addNode() {
+    try {
+        logButtonClick('AddNodeSubmitButton', 'addNode');
+        const text = document.getElementById('nodeText');
+        const next = document.getElementById('nextNode');
+        const textError = document.getElementById('nodeTextError');
+        const isTextValid = validateInput(text, textError, 'Введите текст узла');
+        if (!isTextValid) return;
+
+        const id = Date.now();
+        botNodes[id] = { text: text.value, next: next.value || null };
+        localStorage.setItem('botNodes', JSON.stringify(botNodes));
+
+        const node = document.createElement('div');
+        node.className = 'node';
+        node.dataset.id = id;
+        node.innerText = `${text.value} (Следующий: ${next.value || 'Нет'})`;
+        node.style.position = 'absolute';
+        const gridX = (Object.keys(botNodes).length % 5) * 120;
+        const gridY = Math.floor(Object.keys(botNodes).length / 5) * 120;
+        node.style.left = `${50 + gridX}px`;
+        node.style.top = `${50 + gridY}px`;
+        node.draggable = true;
+        node.addEventListener('dragstart', dragStart);
+        document.getElementById('canvas').appendChild(node);
+
+        closeModal('nodeCreationModal');
+        await saveNodesToServer();
+        document.getElementById('nodeCreationForm').reset();
+    } catch (error) {
+        logError('AddNodeSubmitButton', 'addNode', error);
+    }
+}
+
+async function configureAI() {
+    try {
+        logButtonClick('AIConfigSubmitButton', 'configureAI');
+        const provider = document.getElementById('aiProvider');
+        const apiKey = document.getElementById('aiKey');
+        const customAIName = document.getElementById('customAIName');
+        const customAIUrl = document.getElementById('customAIUrl');
+        const providerError = document.getElementById('aiProviderError');
+        const apiKeyError = document.getElementById('aiKeyError');
+        const customAINameError = document.getElementById('customAINameError');
+        const customAIUrlError = document.getElementById('customAIUrlError');
+
+        const isProviderValid = validateInput(provider, providerError, 'Выберите провайдера');
+        const isApiKeyValid = validateInput(apiKey, apiKeyError, 'Введите API ключ');
+        if (!isProviderValid || !isApiKeyValid) return;
+
+        let customAINameValue = null;
+        let customAIUrlValue = null;
+        if (provider.value === 'custom') {
+            const isCustomAINameValid = validateInput(customAIName, customAINameError, 'Введите имя провайдера');
+            const isCustomAIUrlValid = validateInput(customAIUrl, customAIUrlError, 'Введите URL API');
+            if (!isCustomAINameValid || !isCustomAIUrlValid) return;
+            customAINameValue = customAIName.value;
+            customAIUrlValue = customAIUrl.value;
+        }
+
+        showSpinner();
+        const csrfToken = await getCsrfToken();
+        const response = await fetch('/api/configure-ai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+                provider: provider.value,
+                apiKey: apiKey.value,
+                token: currentBotToken,
+                customAIName: customAINameValue,
+                customAIUrl: customAIUrlValue
+            })
+        });
+        if (!response.ok) throw new Error('Ошибка сервера');
+        const data = await response.json();
+        alert('ИИ успешно настроен!');
+        closeModal('aiConfigModal');
+        document.getElementById('aiConfigForm').reset();
+    } catch (error) {
+        logError('AIConfigSubmitButton', 'configureAI', error);
+        alert('Ошибка при настройке ИИ.');
+    } finally {
+        hideSpinner();
+    }
+}
+
+async function saveNodesToServer() {
+    try {
+        const csrfToken = await getCsrfToken();
+        const response = await fetch('/api/save-nodes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ token: currentBotToken, nodes: botNodes })
+        });
+        if (!response.ok) throw new Error('Ошибка сервера');
+        localStorage.setItem('botNodes', JSON.stringify(botNodes));
+    } catch (error) {
+        console.error('Ошибка сохранения узлов:', error);
+    }
+}
+
+function dragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.innerText);
+    e.dataTransfer.setData('id', e.target.dataset.id);
+}
+
+async function generateNodeWithAI() {
+    try {
+        logButtonClick('GenerateNodeAIButton', 'generateNodeWithAI');
+        const description = prompt('Опишите узел (например, "приветственное сообщение"):');
+        if (description) {
+            showSpinner();
+            const csrfToken = await getCsrfToken();
+            const response = await fetch('/api/generate-3d', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ description })
+            });
+            if (!response.ok) throw new Error('Ошибка сервера');
+            const data = await response.json();
+            document.getElementById('nodeText').value = data.description;
+            showNodeCreationModal();
+        }
+    } catch (error) {
+        logError('GenerateNodeAIButton', 'generateNodeWithAI', error);
+        alert('Ошибка генерации узла с ИИ.');
+    } finally {
+        hideSpinner();
+    }
+}
+
+function toggleTheme() {
+    try {
+        logButtonClick('ThemeToggleButton', 'toggleTheme');
+        const body = document.body;
+        const isLightTheme = body.classList.toggle('light-theme');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        sunIcon.classList.toggle('hidden', isLightTheme);
+        moonIcon.classList.toggle('hidden', !isLightTheme);
+        localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('class', 'sr-only');
+        liveRegion.textContent = `Тема изменена на ${isLightTheme ? 'светлую' : 'тёмную'}`;
+        document.body.appendChild(liveRegion);
+        setTimeout(() => liveRegion.remove(), 3000);
+    } catch (error) {
+        logError('ThemeToggleButton', 'toggleTheme', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        document.getElementById('sun-icon').classList.add('hidden');
+        document.getElementById('moon-icon').classList.remove('hidden');
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+    // Слушаем событие от three-script.js для скрытия загрузочного экрана
+    document.addEventListener('threeSceneLoaded', () => {
+        document.getElementById('three-loading').classList.add('hidden');
+        console.log('[Script] 3D scene loaded, hiding loading screen');
+    });
+
+    const canvas = document.getElementById('canvas');
+    canvas.addEventListener('dragover', (e) => e.preventDefault());
+    canvas.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('id');
+        const node = document.querySelector(`.node[data-id="${id}"]`);
+        if (node) {
+            const rect = canvas.getBoundingClientRect();
+            node.style.left = `${e.clientX - rect.left - 50}px`;
+            node.style.top = `${e.clientY - rect.top - 50}px`;
+            const liveRegion = document.createElement('div');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('class', 'sr-only');
+            liveRegion.textContent = 'Узел перемещён';
+            document.body.appendChild(liveRegion);
+            setTimeout(() => liveRegion.remove(), 3000);
+        }
+    });
+
+    document.querySelectorAll('.modal .close').forEach(closeBtn => {
+        closeBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                closeModal(closeBtn.closest('.modal').id);
+            }
+        });
+    });
+
+    const loginButton = document.getElementById('loginButton');
+    const createBotButton = document.getElementById('createBotButton');
+    const generateAIButton = document.getElementById('generateAIButton');
+    if (loginButton) {
+        loginButton.addEventListener('click', () => {
+            logButtonClick('LoginButton', 'showAuthModal');
+            showAuthModal();
+        });
+    }
+    if (createBotButton) {
+        createBotButton.addEventListener('click', () => {
+            logButtonClick('CreateBotButton', 'showBotCreationModal');
+            showBotCreationModal();
+        });
+    }
+    if (generateAIButton) {
+        generateAIButton.addEventListener('click', () => {
+            logButtonClick('GenerateNodeAIButton', 'generateNodeWithAI');
+            generateNodeWithAI();
+        });
+    }
+});
