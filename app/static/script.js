@@ -38,11 +38,46 @@ async function initApp() {
 function initializeUI() {
     console.log('Initializing UI...');
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('generateAIButton').addEventListener('click', generateNodeWithAI);
 }
 
 function initializeAnimation() {
     console.log('Initializing animation...');
-    // Здесь должна быть логика для Three.js, если используется
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('backgroundCanvas').appendChild(renderer.domElement);
+
+    const geometry = new THREE.SphereGeometry(5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    camera.position.z = 15;
+
+    const animate = () => {
+        requestAnimationFrame(animate);
+        TWEEN.update();
+        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    };
+
+    const tween = new TWEEN.Tween(sphere.scale)
+        .to({ x: 1.5, y: 1.5, z: 1.5 }, 2000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .yoyo(true)
+        .repeat(Infinity)
+        .start();
+
+    animate();
+
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
 }
 
 function toggleTheme() {
@@ -146,7 +181,7 @@ async function register() {
 }
 
 async function verifyEmail() {
-    const username = document.getElementById('regUsername').value; // Предполагаем, что имя пользователя сохранено
+    const username = document.getElementById('regUsername').value;
     const code = document.getElementById('verificationCode').value;
     const csrfToken = localStorage.getItem('csrfToken');
 
@@ -217,13 +252,10 @@ async function createBot() {
     }
 }
 
-function showBotCreationModal() {
-    document.getElementById('botCreationModal').style.display = 'block';
-}
-
 function generateNodeWithAI() {
     console.log('Generating node with AI...');
-    // Здесь должна быть логика генерации узла с ИИ
+    alert('Генерация узла с помощью AI началась! (Пока это заглушка)');
+    // Здесь можно добавить логику вызова API для генерации AI
 }
 
 document.addEventListener('DOMContentLoaded', () => {
