@@ -63,19 +63,23 @@ class VerifyData(BaseModel):
 class BotData(BaseModel):
     name: str
     token: str
+    type: str  # "telegram", "discord", "multiplatform"
 
 class ExportAPKData(BaseModel):
     name: str
     token: str
+    ui_config: dict  # Настройки интерфейса APK
 
 class BotStructureData(BaseModel):
     name: str
     token: str
+    structure: dict  # Обновленная структура
 
 class GenerateDocsData(BaseModel):
     name: str
     token: str
     commands: list
+    examples: list
 
 def send_verification_email(email: str, code: str):
     sender = os.getenv("SMTP_EMAIL")
@@ -211,8 +215,74 @@ async def create_bot(request: Request, data: BotData):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    logger.info(f"Bot created: {data.name}")
-    return {"message": f"Bot {data.name} created successfully", "token": data.token}
+    if data.type == "telegram":
+        code = f"""import asyncio
+from aiogram import Bot, Dispatcher, types
+
+bot = Bot(token='{data.token}')
+dp = Dispatcher(bot)
+
+@dp.message_handler(commands=['start'])
+async def start(message: types.Message):
+    await message.reply('Привет от Telegram бота!')
+
+async def main():
+    await dp.start_polling()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+"""
+    elif data.type == "discord":
+        code = f"""import discord
+
+client = discord.Client(intents=discord.Intents.default())
+
+@client.event
+async def on_ready():
+    print(f'Discord bot {{client.user}} is ready')
+
+@client.event
+async def on_message(message):
+    if message.author != client.user:
+        await message.channel.send('Привет от Discord бота!')
+
+client.run('{data.token}')
+"""
+    elif data.type == "multiplatform":
+        code = f"""import asyncio
+from aiogram import Bot as TelegramBot, Dispatcher as TelegramDispatcher, types
+import discord
+
+telegram_bot = TelegramBot(token='{data.token.split('|')[0]}')
+telegram_dp = TelegramDispatcher(telegram_bot)
+discord_client = discord.Client(intents=discord.Intents.default())
+
+@telegram_dp.message_handler(commands=['start'])
+async def telegram_start(message: types.Message):
+    await message.reply('Привет из Telegram!')
+
+@discord_client.event
+async def on_ready():
+    print(f'Discord bot {{discord_client.user}} is ready')
+
+@discord_client.event
+async def on_message(message):
+    if message.author != discord_client.user:
+        await message.channel.send('Привет из Discord!')
+
+async def main():
+    await asyncio.gather(telegram_dp.start_polling(), discord_client.start('{data.token.split('|')[1]}'))
+
+if __name__ == '__main__':
+    asyncio.run(main())
+"""
+    else:
+        raise HTTPException(status_code=400, detail="Invalid bot type")
+
+    with open(f"{data.name}_bot.py", "w") as f:
+        f.write(code)
+    logger.info(f"Bot created: {data.name}, type: {data.type}")
+    return FileResponse(f"{data.name}_bot.py", filename=f"{data.name}_bot.py")
 
 @app.post("/api/check-bot-status")
 async def check_bot_status(request: Request, data: BotData):
@@ -223,15 +293,22 @@ async def check_bot_status(request: Request, data: BotData):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    async with aiohttp.ClientSession() as session:
-        url = f"https://api.telegram.org/bot{data.token}/getMe"
-        async with session.get(url) as response:
-            result = await response.json()
-            if response.status == 200 and result.get("ok"):
-                logger.info(f"Bot {data.name} is online")
-                return {"status": "online", "bot_info": result["result"]}
-            logger.info(f"Bot {data.name} is offline")
-            return {"status": "offline", "error": result.get("description", "Unknown error")}
+    if data.type == "telegram":
+        async with aiohttp.ClientSession() as session:
+            url = f"https://api.telegram.org/bot{data.token}/getMe"
+            async with session.get(url) as response:
+                result = await response.json()
+                if response.status == 200 and result.get("ok"):
+                    logger.info(f"Bot {data.name} is online")
+                    stats = await session.get(f"https://api.telegram.org/bot{data.token}/getUpdates")
+                    stats_data = await stats.json()
+                    return {"status": "online", "bot_info": result["result"], "stats": stats_data.get("result", [])}
+                logger.info(f"Bot {data.name} is offline")
+                return {"status": "offline", "error": result.get("description", "Unknown error")}
+    elif data.type == "discord":
+        return {"status": "unknown", "message": "Discord status check not implemented yet"}
+    else:
+        return {"status": "unknown", "message": "Multiplatform status check requires separate tokens"}
 
 @app.post("/api/export-apk")
 async def export_apk(request: Request, data: ExportAPKData):
@@ -242,16 +319,34 @@ async def export_apk(request: Request, data: ExportAPKData):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    # Заглушка для APK (простой Python-код в ZIP)
+    ui_config = data.ui_config or {"title": "Bot Control", "color": "#007bff"}
     bot_code = f"""import requests
+import tkinter as tk
 
 TOKEN = '{data.token}'
 API_URL = 'https://api.telegram.org/bot' + TOKEN
 
-def send_message(chat_id, text):
+def send_message():
+    chat_id = chat_id_entry.get()
+    text = message_entry.get()
     requests.post(f'{{API_URL}}/sendMessage', json={{'chat_id': chat_id, 'text': text}})
+    message_entry.delete(0, tk.END)
 
-print('Bot APK running...')
+root = tk.Tk()
+root.title("{ui_config['title']}")
+root.configure(bg="{ui_config['color']}")
+
+tk.Label(root, text="Chat ID:").pack()
+chat_id_entry = tk.Entry(root)
+chat_id_entry.pack()
+
+tk.Label(root, text="Message:").pack()
+message_entry = tk.Entry(root)
+message_entry.pack()
+
+tk.Button(root, text="Send", command=send_message).pack()
+
+root.mainloop()
 """
     apk_dir = f"apk_{data.name}"
     os.makedirs(apk_dir, exist_ok=True)
@@ -262,7 +357,7 @@ print('Bot APK running...')
     apk_file = f"{data.name}_bot.apk"
     with zipfile.ZipFile(apk_file, 'w') as zf:
         zf.write(f"{apk_dir}/bot.py", "bot.py")
-        zf.write(f"{apk_dir}/AndroidManifest.xml", "AndroidManifest.xml")
+        zf.write(f"{apk_dir}/AndroidManifest.xml", "AndroidGITManifest.xml")
     shutil.rmtree(apk_dir)
 
     logger.info(f"APK exported for bot: {data.name}")
@@ -277,8 +372,7 @@ async def bot_structure(request: Request, data: BotStructureData):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    # Пример структуры бота
-    structure = {
+    structure = data.structure or {
         "nodes": [
             {"id": "start", "command": "/start", "x": 0, "y": 0, "z": 0},
             {"id": "help", "command": "/help", "x": 5, "y": 0, "z": 0}
@@ -287,7 +381,7 @@ async def bot_structure(request: Request, data: BotStructureData):
             {"from": "start", "to": "help"}
         ]
     }
-    logger.info(f"Bot structure generated for: {data.name}")
+    logger.info(f"Bot structure updated for: {data.name}")
     return {"structure": structure}
 
 @app.post("/api/generate-docs")
@@ -302,8 +396,9 @@ async def generate_docs(request: Request, data: GenerateDocsData):
     docs = f"# {data.name} Bot\n\n"
     docs += "## Описание\nЭто Telegram-бот, созданный с помощью Telegram Bot Builder.\n\n"
     docs += "## Команды\n"
-    for cmd in data.commands:
-        docs += f"- `{cmd}`: Описание команды (автогенерация).\n"
+    for i, cmd in enumerate(data.commands):
+        example = data.examples[i] if i < len(data.examples) else "Нет примера"
+        docs += f"- `{cmd}`: Описание команды.\n  *Пример:* `{example}`\n"
     docs += "\n## Установка\n1. Установите зависимости: `pip install aiogram`\n2. Запустите бота: `python bot.py`\n"
 
     doc_file = f"{data.name}_README.md"

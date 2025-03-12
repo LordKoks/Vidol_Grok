@@ -1,4 +1,3 @@
-
 async function fetchCsrfToken() {
     try {
         console.log('Fetching CSRF token...');
@@ -39,10 +38,11 @@ async function initApp() {
 function initializeUI() {
     console.log('Initializing UI...');
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('checkBotStatusButton').addEventListener('click', checkBotStatus);
-    document.getElementById('exportAPKButton').addEventListener('click', exportAPK);
-    document.getElementById('previewButton').addEventListener('click', showPreviewModal);
-    document.getElementById('docsButton').addEventListener('click', generateDocs);
+    document.getElementById('createBotButton').addEventListener('click', () => showModal('createBotModal'));
+    document.getElementById('checkStatusButton').addEventListener('click', () => showModal('checkStatusModal'));
+    document.getElementById('exportAPKButton').addEventListener('click', () => showModal('exportAPKModal'));
+    document.getElementById('previewButton').addEventListener('click', () => showModal('previewModal'));
+    document.getElementById('docsButton').addEventListener('click', () => showModal('docsModal'));
 }
 
 function initializeAnimation() {
@@ -109,23 +109,12 @@ function toggleTheme() {
     moonIcon.classList.toggle('hidden');
 }
 
-function showAuthModal() {
-    document.getElementById('authModal').style.display = 'block';
-}
-
-function showRegistrationModal() {
-    closeModal('authModal');
-    document.getElementById('registrationModal').style.display = 'block';
-}
-
-function showBotCreationModal() {
-    document.getElementById('botCreationModal').style.display = 'block';
-}
-
-function showPreviewModal() {
-    document.getElementById('previewModal').style.display = 'block';
-    initializePreview();
-    loadBotStructure();
+function showModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+    if (modalId === 'previewModal') {
+        initializePreview();
+        loadBotStructure();
+    }
 }
 
 function closeModal(modalId) {
@@ -244,8 +233,9 @@ async function verifyEmail() {
 }
 
 async function createBot() {
-    const botName = document.getElementById('botName').value;
-    const botToken = document.getElementById('botToken').value;
+    const botName = document.getElementById('createBotName').value;
+    const botToken = document.getElementById('createBotToken').value;
+    const botType = document.getElementById('botType').value;
     const csrfToken = localStorage.getItem('csrfToken');
 
     if (!csrfToken) {
@@ -261,17 +251,26 @@ async function createBot() {
                 'X-CSRF-Token': csrfToken
             },
             credentials: 'include',
-            body: JSON.stringify({ name: botName, token: botToken })
+            body: JSON.stringify({ name: botName, token: botToken, type: botType })
         });
 
-        const data = await response.json();
         if (response.ok) {
-            console.log('Bot created:', data);
-            closeModal('botCreationModal');
-            alert('Бот создан успешно!');
-            localStorage.setItem('botToken', data.token);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${botName}_bot.py`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            console.log('Bot created:', botName);
+            closeModal('createBotModal');
+            alert('Бот создан и скачан!');
+            localStorage.setItem('botToken', botToken);
+            localStorage.setItem('botName', botName);
         } else {
-            document.getElementById('botNameError').textContent = data.detail;
+            const data = await response.json();
+            document.getElementById('createBotError').textContent = data.detail;
             console.error('Bot creation failed:', data.detail);
         }
     } catch (error) {
@@ -281,8 +280,9 @@ async function createBot() {
 }
 
 async function checkBotStatus() {
-    const botName = document.getElementById('botName').value || "TestBot";
+    const botName = localStorage.getItem('botName') || "TestBot";
     const botToken = localStorage.getItem('botToken');
+    const botType = document.getElementById('checkBotType').value;
     const csrfToken = localStorage.getItem('csrfToken');
 
     if (!botToken) {
@@ -302,26 +302,32 @@ async function checkBotStatus() {
                 'X-CSRF-Token': csrfToken
             },
             credentials: 'include',
-            body: JSON.stringify({ name: botName, token: botToken })
+            body: JSON.stringify({ name: botName, token: botToken, type: botType })
         });
 
         const data = await response.json();
         if (response.ok) {
             console.log('Bot status:', data);
-            alert(`Статус бота: ${data.status}\nИнформация: ${JSON.stringify(data.bot_info || data.error)}`);
+            document.getElementById('statusResult').innerHTML = `
+                Статус: ${data.status}<br>
+                Информация: ${JSON.stringify(data.bot_info || data.error)}<br>
+                Статистика: ${data.stats ? JSON.stringify(data.stats) : 'Недоступно'}
+            `;
         } else {
             console.error('Bot status check failed:', data.detail);
-            alert('Ошибка проверки статуса бота');
+            document.getElementById('statusResult').textContent = 'Ошибка: ' + data.detail;
         }
     } catch (error) {
         console.error('Bot status check error:', error);
-        alert('Ошибка проверки статуса бота');
+        document.getElementById('statusResult').textContent = 'Ошибка проверки статуса';
     }
 }
 
 async function exportAPK() {
-    const botName = document.getElementById('botName').value || "TestBot";
+    const botName = localStorage.getItem('botName') || "TestBot";
     const botToken = localStorage.getItem('botToken');
+    const uiTitle = document.getElementById('apkUITitle').value;
+    const uiColor = document.getElementById('apkUIColor').value;
     const csrfToken = localStorage.getItem('csrfToken');
 
     if (!botToken) {
@@ -333,6 +339,7 @@ async function exportAPK() {
         return;
     }
 
+    const uiConfig = { title: uiTitle || "Bot Control", color: uiColor || "#007bff" };
     try {
         const response = await fetch('/api/export-apk', {
             method: 'POST',
@@ -341,7 +348,7 @@ async function exportAPK() {
                 'X-CSRF-Token': csrfToken
             },
             credentials: 'include',
-            body: JSON.stringify({ name: botName, token: botToken })
+            body: JSON.stringify({ name: botName, token: botToken, ui_config: uiConfig })
         });
 
         if (response.ok) {
@@ -354,6 +361,7 @@ async function exportAPK() {
             a.click();
             a.remove();
             console.log('APK exported:', botName);
+            closeModal('exportAPKModal');
             alert('APK бота скачан!');
         } else {
             const data = await response.json();
@@ -367,7 +375,7 @@ async function exportAPK() {
 }
 
 async function loadBotStructure() {
-    const botName = document.getElementById('botName').value || "TestBot";
+    const botName = localStorage.getItem('botName') || "TestBot";
     const botToken = localStorage.getItem('botToken');
     const csrfToken = localStorage.getItem('csrfToken');
 
@@ -388,7 +396,7 @@ async function loadBotStructure() {
                 'X-CSRF-Token': csrfToken
             },
             credentials: 'include',
-            body: JSON.stringify({ name: botName, token: botToken })
+            body: JSON.stringify({ name: botName, token: botToken, structure: null })
         });
 
         const data = await response.json();
@@ -412,6 +420,7 @@ function renderBotStructure(structure) {
         const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         const sphere = new THREE.Mesh(geometry, material);
         sphere.position.set(node.x, node.y, node.z);
+        sphere.userData = node;
         previewScene.add(sphere);
     });
     structure.edges.forEach(edge => {
@@ -425,12 +434,68 @@ function renderBotStructure(structure) {
         const line = new THREE.Line(geometry, material);
         previewScene.add(line);
     });
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let selectedNode = null;
+
+    previewRenderer.domElement.addEventListener('mousemove', (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / 600) * 2 + 1;
+        raycaster.setFromCamera(mouse, previewCamera);
+        const intersects = raycaster.intersectObjects(previewScene.children);
+        if (intersects.length > 0) {
+            selectedNode = intersects[0].object;
+            selectedNode.material.color.set(0x00ff00);
+        } else if (selectedNode) {
+            selectedNode.material.color.set(0xff0000);
+            selectedNode = null;
+        }
+    });
+
+    previewRenderer.domElement.addEventListener('click', () => {
+        if (selectedNode) {
+            const newCommand = prompt('Введите новую команду:', selectedNode.userData.command);
+            if (newCommand) {
+                selectedNode.userData.command = newCommand;
+                updateBotStructure(structure);
+            }
+        }
+    });
+}
+
+async function updateBotStructure(structure) {
+    const botName = localStorage.getItem('botName') || "TestBot";
+    const botToken = localStorage.getItem('botToken');
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    try {
+        const response = await fetch('/api/bot-structure', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken, structure })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Structure updated:', data);
+        } else {
+            console.error('Structure update failed:', data.detail);
+        }
+    } catch (error) {
+        console.error('Structure update error:', error);
+    }
 }
 
 async function generateDocs() {
-    const botName = document.getElementById('botName').value || "TestBot";
+    const botName = localStorage.getItem('botName') || "TestBot";
     const botToken = localStorage.getItem('botToken');
-    const commands = prompt('Введите команды бота через запятую (например, /start, /help):')?.split(',').map(c => c.trim()) || ['/start'];
+    const commands = document.getElementById('docCommands').value.split(',').map(c => c.trim());
+    const examples = document.getElementById('docExamples').value.split(',').map(e => e.trim());
     const csrfToken = localStorage.getItem('csrfToken');
 
     if (!botToken) {
@@ -450,7 +515,7 @@ async function generateDocs() {
                 'X-CSRF-Token': csrfToken
             },
             credentials: 'include',
-            body: JSON.stringify({ name: botName, token: botToken, commands })
+            body: JSON.stringify({ name: botName, token: botToken, commands, examples })
         });
 
         if (response.ok) {
@@ -463,6 +528,7 @@ async function generateDocs() {
             a.click();
             a.remove();
             console.log('Docs generated:', botName);
+            closeModal('docsModal');
             alert('Документация бота скачана!');
         } else {
             const data = await response.json();

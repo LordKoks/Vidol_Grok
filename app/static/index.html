@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -21,10 +20,10 @@
         </button>
     </header>
     <main>
-        <button onclick="showAuthModal()">Вход</button>
-        <button onclick="showRegistrationModal()">Регистрация</button>
-        <button onclick="showBotCreationModal()">Создать бота</button>
-        <button id="checkBotStatusButton">Проверить статус бота</button>
+        <button onclick="showModal('authModal')">Вход</button>
+        <button onclick="showModal('registrationModal')">Регистрация</button>
+        <button id="createBotButton">Создать бота</button>
+        <button id="checkStatusButton">Проверить статус</button>
         <button id="exportAPKButton">Экспорт в APK</button>
         <button id="previewButton">Предпросмотр 3D</button>
         <button id="docsButton">Генерация документации</button>
@@ -67,14 +66,45 @@
     </div>
 
     <!-- Модальное окно создания бота -->
-    <div id="botCreationModal" class="modal">
+    <div id="createBotModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('botCreationModal')">×</span>
+            <span class="close" onclick="closeModal('createBotModal')">×</span>
             <h2>Создать бота</h2>
-            <input type="text" id="botName" placeholder="Имя бота">
-            <input type="text" id="botToken" placeholder="Токен бота">
-            <p id="botNameError" class="error"></p>
-            <button onclick="createBot()">Создать</button>
+            <input type="text" id="createBotName" placeholder="Имя бота">
+            <input type="text" id="createBotToken" placeholder="Токен бота (Telegram|Discord для мульти)">
+            <select id="botType">
+                <option value="telegram">Telegram</option>
+                <option value="discord">Discord</option>
+                <option value="multiplatform">Мультиплатформа</option>
+            </select>
+            <p id="createBotError" class="error"></p>
+            <button onclick="createBot()">Создать и скачать</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно проверки статуса -->
+    <div id="checkStatusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('checkStatusModal')">×</span>
+            <h2>Проверить статус бота</h2>
+            <select id="checkBotType">
+                <option value="telegram">Telegram</option>
+                <option value="discord">Discord</option>
+                <option value="multiplatform">Мультиплатформа</option>
+            </select>
+            <button onclick="checkBotStatus()">Проверить</button>
+            <div id="statusResult" class="status-box"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно экспорта APK -->
+    <div id="exportAPKModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('exportAPKModal')">×</span>
+            <h2>Экспорт в APK</h2>
+            <input type="text" id="apkUITitle" placeholder="Название приложения">
+            <input type="color" id="apkUIColor" value="#007bff">
+            <button onclick="exportAPK()">Экспортировать</button>
         </div>
     </div>
 
@@ -83,7 +113,19 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('previewModal')">×</span>
             <h2>Предпросмотр структуры бота в 3D</h2>
+            <p>Кликните на узел для редактирования команды</p>
             <div id="previewCanvas"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно генерации документации -->
+    <div id="docsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('docsModal')">×</span>
+            <h2>Генерация документации</h2>
+            <input type="text" id="docCommands" placeholder="Команды (через запятую)">
+            <input type="text" id="docExamples" placeholder="Примеры (через запятую)">
+            <button onclick="generateDocs()">Сгенерировать</button>
         </div>
     </div>
 </body>
