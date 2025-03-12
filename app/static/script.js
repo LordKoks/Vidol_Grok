@@ -35,309 +35,198 @@ async function initApp() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded, calling initApp');
-    initApp();
-});
-
-// Остальной код остается без изменений (initializeUI, login, register и т.д.)
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded, calling initApp');
-    initApp();
-});
-
-// Остальной код (включая login, register и т.д.) остается без изменений
 function initializeUI() {
     console.log('Initializing UI...');
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
-    const savedTheme = localStorage.getItem('theme') || 'dark-theme';
-    body.classList.add(savedTheme);
-
-    if (themeToggle && body) {
-        themeToggle.addEventListener('click', () => {
-            if (body.classList.contains('dark-theme')) {
-                body.classList.replace('dark-theme', 'light-theme');
-                localStorage.setItem('theme', 'light-theme');
-            } else {
-                body.classList.replace('light-theme', 'dark-theme');
-                localStorage.setItem('theme', 'dark-theme');
-            }
-            console.log('Theme toggled');
-        });
-    } else {
-        console.error('Theme toggle or body not found');
-    }
-
-    window.showAuthModal = () => {
-        const modal = document.getElementById('authModal');
-        if (modal) {
-            modal.style.display = 'block';
-            console.log('Auth modal shown');
-        } else {
-            console.error('Auth modal not found');
-        }
-    };
-
-    window.showBotCreationModal = () => {
-        const modal = document.getElementById('botCreationModal');
-        if (modal) {
-            modal.style.display = 'block';
-            console.log('Bot creation modal shown');
-        } else {
-            console.error('Bot creation modal not found');
-        }
-    };
-
-    window.showRegistrationModal = () => {
-        closeModal('authModal');
-        const modal = document.getElementById('registrationModal');
-        if (modal) {
-            modal.style.display = 'block';
-            console.log('Registration modal shown');
-        } else {
-            console.error('Registration modal not found');
-        }
-    };
-
-    window.closeModal = (modalId) => {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-            console.log(`${modalId} modal closed`);
-        } else {
-            console.error(`${modalId} not found`);
-        }
-    };
-
-    window.login = async () => {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const csrfToken = localStorage.getItem('csrfToken');
-        const usernameError = document.getElementById('usernameError');
-        const passwordError = document.getElementById('passwordError');
-
-        usernameError.textContent = '';
-        passwordError.textContent = '';
-
-        if (!username || !password) {
-            if (!username) usernameError.textContent = 'Логин обязателен';
-            if (!password) passwordError.textContent = 'Пароль обязателен';
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken || ''
-                },
-                credentials: 'include',
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Login successful:', data.message);
-                localStorage.setItem('isAuthenticated', 'true');
-                localStorage.setItem('userRole', data.role);
-                closeModal('authModal');
-                showAuthenticatedUI();
-                if (data.role === 'admin') {
-                    console.log('Admin privileges granted');
-                }
-            } else {
-                if (response.status === 401) {
-                    passwordError.textContent = data.detail || 'Неверный логин или пароль';
-                } else if (response.status === 403) {
-                    passwordError.textContent = 'Неверный CSRF-токен. Перезагрузите страницу.';
-                } else {
-                    passwordError.textContent = data.detail || 'Ошибка входа';
-                }
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            passwordError.textContent = 'Ошибка сервера';
-        }
-    };
-
-    window.createBot = async () => {
-        const botName = document.getElementById('botName').value;
-        const botToken = document.getElementById('botToken').value;
-        const csrfToken = localStorage.getItem('csrfToken');
-        const botNameError = document.getElementById('botNameError');
-        const botTokenError = document.getElementById('botTokenError');
-
-        botNameError.textContent = '';
-        botTokenError.textContent = '';
-
-        if (!botName || !botToken) {
-            if (!botName) botNameError.textContent = 'Имя бота обязательно';
-            if (!botToken) botTokenError.textContent = 'Токен бота обязателен';
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/create-bot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken || ''
-                },
-                credentials: 'include',
-                body: JSON.stringify({ name: botName, token: botToken })
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Bot created:', data.message);
-                closeModal('botCreationModal');
-            } else {
-                if (response.status === 403) {
-                    botNameError.textContent = 'Неверный CSRF-токен. Перезагрузите страницу.';
-                } else {
-                    botNameError.textContent = data.detail || 'Ошибка создания бота';
-                }
-            }
-        } catch (error) {
-            console.error('Bot creation error:', error);
-            botNameError.textContent = 'Ошибка сервера';
-        }
-    };
-
-    window.register = async () => {
-        let csrfToken = localStorage.getItem('csrfToken');
-        if (!csrfToken) {
-            csrfToken = await fetchCsrfToken();
-            if (csrfToken) localStorage.setItem('csrfToken', csrfToken);
-        }
-
-        const username = document.getElementById('regUsername').value;
-        const password = document.getElementById('regPassword').value;
-        const email = document.getElementById('regEmail').value;
-        const regEmailError = document.getElementById('regEmailError');
-
-        regEmailError.textContent = '';
-        console.log('Register attempt:', { username, password, email, csrfToken });
-
-        if (!username || !password || !email) {
-            regEmailError.textContent = 'Все поля обязательны';
-            return;
-        }
-        if (!csrfToken) {
-            regEmailError.textContent = 'CSRF-токен не получен. Перезагрузите страницу.';
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken
-                },
-                credentials: 'include',
-                body: JSON.stringify({ username, password, email })
-            });
-
-            const data = await response.json();
-            console.log('Register response:', data);
-            if (response.ok) {
-                console.log('Registration successful:', data.message);
-                closeModal('registrationModal');
-                document.getElementById('verifyModal').style.display = 'block';
-            } else {
-                regEmailError.textContent = data.detail || 'Ошибка регистрации';
-            }
-        } catch (error) {
-            console.error('Registration error:', error);
-            regEmailError.textContent = 'Ошибка сервера';
-        }
-    };
-
-    window.verifyEmail = async () => {
-        const code = document.getElementById('verificationCode').value;
-        const username = document.getElementById('regUsername').value;
-        const csrfToken = localStorage.getItem('csrfToken');
-        const verificationCodeError = document.getElementById('verificationCodeError');
-
-        verificationCodeError.textContent = '';
-
-        if (!code) {
-            verificationCodeError.textContent = 'Код обязателен';
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/verify-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken || ''
-                },
-                credentials: 'include',
-                body: JSON.stringify({ username, code })
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Email verified:', data.message);
-                closeModal('verifyModal');
-                alert('Регистрация завершена! Теперь вы можете войти.');
-                showAuthModal();
-            } else {
-                verificationCodeError.textContent = data.detail || 'Неверный код';
-            }
-        } catch (error) {
-            console.error('Verification error:', error);
-            verificationCodeError.textContent = 'Ошибка сервера';
-        }
-    };
-
-    window.generateNodeWithAI = () => {
-        console.log('Generate node with AI clicked');
-    };
-
-    window.addNode = () => {
-        console.log('Add node clicked');
-    };
-
-    window.configureAI = () => {
-        console.log('Configure AI clicked');
-    };
-
-    window.toggleCustomAIFields = () => {
-        const aiProvider = document.getElementById('aiProvider').value;
-        const customAIFields = document.getElementById('customAIFields');
-        if (aiProvider === 'custom') {
-            customAIFields.style.display = 'block';
-        } else {
-            customAIFields.style.display = 'none';
-        }
-    };
-
-    showAuthenticatedUI();
-}
-
-function showAuthenticatedUI() {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    const buttonGroup = document.querySelector('.button-group');
-    if (isAuthenticated) {
-        buttonGroup.style.display = 'flex';
-        buttonGroup.classList.add('fade-in');
-    } else {
-        buttonGroup.style.display = 'none';
-    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 }
 
 function initializeAnimation() {
     console.log('Initializing animation...');
-    if (typeof window.initScene === 'function') {
-        window.initScene();
-    } else {
-        console.error('initScene function not found');
+    // Здесь должна быть логика для Three.js, если используется
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    sunIcon.classList.toggle('hidden');
+    moonIcon.classList.toggle('hidden');
+}
+
+function showAuthModal() {
+    document.getElementById('authModal').style.display = 'block';
+}
+
+function showRegistrationModal() {
+    closeModal('authModal');
+    document.getElementById('registrationModal').style.display = 'block';
+}
+
+function showBotCreationModal() {
+    document.getElementById('botCreationModal').style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Login successful:', data);
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('role', data.role);
+            closeModal('authModal');
+            alert('Вход выполнен успешно!');
+        } else {
+            document.getElementById('passwordError').textContent = data.detail;
+            console.error('Login failed:', data.detail);
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Ошибка входа');
     }
 }
 
-document.addEventListener('DOMContentLoaded', initApp);
+async function register() {
+    const username = document.getElementById('regUsername').value;
+    const password = document.getElementById('regPassword').value;
+    const email = document.getElementById('regEmail').value;
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ username, password, email })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Registration successful:', data);
+            closeModal('registrationModal');
+            document.getElementById('verifyModal').style.display = 'block';
+        } else {
+            document.getElementById('regUsernameError').textContent = data.detail;
+            console.error('Registration failed:', data.detail);
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        alert('Ошибка регистрации');
+    }
+}
+
+async function verifyEmail() {
+    const username = document.getElementById('regUsername').value; // Предполагаем, что имя пользователя сохранено
+    const code = document.getElementById('verificationCode').value;
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/verify-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ username, code })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Email verified:', data);
+            closeModal('verifyModal');
+            alert('Email подтвержден!');
+        } else {
+            document.getElementById('verificationCodeError').textContent = data.detail;
+            console.error('Verification failed:', data.detail);
+        }
+    } catch (error) {
+        console.error('Verification error:', error);
+        alert('Ошибка подтверждения email');
+    }
+}
+
+async function createBot() {
+    const botName = document.getElementById('botName').value;
+    const botToken = document.getElementById('botToken').value;
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/create-bot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Bot created:', data);
+            closeModal('botCreationModal');
+            alert('Бот создан успешно!');
+        } else {
+            document.getElementById('botNameError').textContent = data.detail;
+            console.error('Bot creation failed:', data.detail);
+        }
+    } catch (error) {
+        console.error('Bot creation error:', error);
+        alert('Ошибка создания бота');
+    }
+}
+
+function showBotCreationModal() {
+    document.getElementById('botCreationModal').style.display = 'block';
+}
+
+function generateNodeWithAI() {
+    console.log('Generating node with AI...');
+    // Здесь должна быть логика генерации узла с ИИ
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded, calling initApp');
+    initApp();
+});
