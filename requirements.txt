@@ -10,3 +10,7 @@ fastapi-csrf-protect==0.3.2
 python-dotenv==1.0.1
 pillow==10.3.0
 numpy==1.26.4
+aiohttp
+passlib[bcrypt]
+requests 
+discord.py
