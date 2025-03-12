@@ -1,3 +1,4 @@
+
 async function fetchCsrfToken() {
     try {
         console.log('Fetching CSRF token...');
@@ -38,7 +39,10 @@ async function initApp() {
 function initializeUI() {
     console.log('Initializing UI...');
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('generateAIButton').addEventListener('click', generateNodeWithAI);
+    document.getElementById('checkBotStatusButton').addEventListener('click', checkBotStatus);
+    document.getElementById('exportAPKButton').addEventListener('click', exportAPK);
+    document.getElementById('previewButton').addEventListener('click', showPreviewModal);
+    document.getElementById('docsButton').addEventListener('click', generateDocs);
 }
 
 function initializeAnimation() {
@@ -49,23 +53,23 @@ function initializeAnimation() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('backgroundCanvas').appendChild(renderer.domElement);
 
-    const geometry = new THREE.SphereGeometry(5, 32, 32);
+    const geometry = new THREE.TorusKnotGeometry(5, 1.5, 100, 16);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-    const sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
 
     camera.position.z = 15;
 
     const animate = () => {
         requestAnimationFrame(animate);
         TWEEN.update();
-        sphere.rotation.x += 0.01;
-        sphere.rotation.y += 0.01;
+        torusKnot.rotation.x += 0.01;
+        torusKnot.rotation.y += 0.01;
         renderer.render(scene, camera);
     };
 
-    const tween = new TWEEN.Tween(sphere.scale)
-        .to({ x: 1.5, y: 1.5, z: 1.5 }, 2000)
+    const tween = new TWEEN.Tween(torusKnot.scale)
+        .to({ x: 1.2, y: 1.2, z: 1.2 }, 2000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .yoyo(true)
         .repeat(Infinity)
@@ -78,6 +82,23 @@ function initializeAnimation() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     });
+}
+
+let previewScene, previewCamera, previewRenderer;
+function initializePreview() {
+    previewScene = new THREE.Scene();
+    previewCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
+    previewRenderer = new THREE.WebGLRenderer({ alpha: true });
+    previewRenderer.setSize(window.innerWidth, 600);
+    document.getElementById('previewCanvas').appendChild(previewRenderer.domElement);
+
+    previewCamera.position.z = 20;
+
+    const animatePreview = () => {
+        requestAnimationFrame(animatePreview);
+        previewRenderer.render(previewScene, previewCamera);
+    };
+    animatePreview();
 }
 
 function toggleTheme() {
@@ -99,6 +120,12 @@ function showRegistrationModal() {
 
 function showBotCreationModal() {
     document.getElementById('botCreationModal').style.display = 'block';
+}
+
+function showPreviewModal() {
+    document.getElementById('previewModal').style.display = 'block';
+    initializePreview();
+    loadBotStructure();
 }
 
 function closeModal(modalId) {
@@ -242,6 +269,7 @@ async function createBot() {
             console.log('Bot created:', data);
             closeModal('botCreationModal');
             alert('Бот создан успешно!');
+            localStorage.setItem('botToken', data.token);
         } else {
             document.getElementById('botNameError').textContent = data.detail;
             console.error('Bot creation failed:', data.detail);
@@ -252,10 +280,199 @@ async function createBot() {
     }
 }
 
-function generateNodeWithAI() {
-    console.log('Generating node with AI...');
-    alert('Генерация узла с помощью AI началась! (Пока это заглушка)');
-    // Здесь можно добавить логику вызова API для генерации AI
+async function checkBotStatus() {
+    const botName = document.getElementById('botName').value || "TestBot";
+    const botToken = localStorage.getItem('botToken');
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!botToken) {
+        alert('Сначала создайте бота!');
+        return;
+    }
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/check-bot-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Bot status:', data);
+            alert(`Статус бота: ${data.status}\nИнформация: ${JSON.stringify(data.bot_info || data.error)}`);
+        } else {
+            console.error('Bot status check failed:', data.detail);
+            alert('Ошибка проверки статуса бота');
+        }
+    } catch (error) {
+        console.error('Bot status check error:', error);
+        alert('Ошибка проверки статуса бота');
+    }
+}
+
+async function exportAPK() {
+    const botName = document.getElementById('botName').value || "TestBot";
+    const botToken = localStorage.getItem('botToken');
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!botToken) {
+        alert('Сначала создайте бота!');
+        return;
+    }
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/export-apk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken })
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${botName}_bot.apk`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            console.log('APK exported:', botName);
+            alert('APK бота скачан!');
+        } else {
+            const data = await response.json();
+            console.error('APK export failed:', data.detail);
+            alert('Ошибка экспорта APK');
+        }
+    } catch (error) {
+        console.error('APK export error:', error);
+        alert('Ошибка экспорта APK');
+    }
+}
+
+async function loadBotStructure() {
+    const botName = document.getElementById('botName').value || "TestBot";
+    const botToken = localStorage.getItem('botToken');
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!botToken) {
+        alert('Сначала создайте бота!');
+        return;
+    }
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/bot-structure', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Bot structure loaded:', data);
+            renderBotStructure(data.structure);
+        } else {
+            console.error('Structure load failed:', data.detail);
+            alert('Ошибка загрузки структуры бота');
+        }
+    } catch (error) {
+        console.error('Structure load error:', error);
+        alert('Ошибка загрузки структуры бота');
+    }
+}
+
+function renderBotStructure(structure) {
+    previewScene.clear();
+    structure.nodes.forEach(node => {
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(node.x, node.y, node.z);
+        previewScene.add(sphere);
+    });
+    structure.edges.forEach(edge => {
+        const fromNode = structure.nodes.find(n => n.id === edge.from);
+        const toNode = structure.nodes.find(n => n.id === edge.to);
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(fromNode.x, fromNode.y, fromNode.z),
+            new THREE.Vector3(toNode.x, toNode.y, toNode.z)
+        ]);
+        const material = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const line = new THREE.Line(geometry, material);
+        previewScene.add(line);
+    });
+}
+
+async function generateDocs() {
+    const botName = document.getElementById('botName').value || "TestBot";
+    const botToken = localStorage.getItem('botToken');
+    const commands = prompt('Введите команды бота через запятую (например, /start, /help):')?.split(',').map(c => c.trim()) || ['/start'];
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    if (!botToken) {
+        alert('Сначала создайте бота!');
+        return;
+    }
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/generate-docs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify({ name: botName, token: botToken, commands })
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${botName}_README.md`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            console.log('Docs generated:', botName);
+            alert('Документация бота скачана!');
+        } else {
+            const data = await response.json();
+            console.error('Docs generation failed:', data.detail);
+            alert('Ошибка генерации документации');
+        }
+    } catch (error) {
+        console.error('Docs generation error:', error);
+        alert('Ошибка генерации документации');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

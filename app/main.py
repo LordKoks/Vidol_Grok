@@ -12,6 +12,9 @@ from dotenv import load_dotenv
 from passlib.context import CryptContext
 import os
 import secrets
+import aiohttp
+import zipfile
+import shutil
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -25,7 +28,6 @@ load_dotenv()
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# Конфигурация CSRF (оставлена для совместимости, но не используется для генерации токена)
 csrf_settings = [
     ("secret_key", os.getenv("CSRF_SECRET_KEY", "your-secret-key-here")),
     ("cookie_samesite", "lax"),
@@ -58,6 +60,23 @@ class VerifyData(BaseModel):
     username: str
     code: str
 
+class BotData(BaseModel):
+    name: str
+    token: str
+
+class ExportAPKData(BaseModel):
+    name: str
+    token: str
+
+class BotStructureData(BaseModel):
+    name: str
+    token: str
+
+class GenerateDocsData(BaseModel):
+    name: str
+    token: str
+    commands: list
+
 def send_verification_email(email: str, code: str):
     sender = os.getenv("SMTP_EMAIL")
     password = os.getenv("SMTP_PASSWORD")
@@ -81,12 +100,12 @@ def send_verification_email(email: str, code: str):
 async def get_csrf_token(response: Response):
     try:
         logger.info("Received request to /api/csrf-token")
-        csrf_token = secrets.token_hex(16)  # Ручная генерация токена
+        csrf_token = secrets.token_hex(16)
         response.set_cookie(
             key="csrftoken",
             value=csrf_token,
             httponly=True,
-            secure=False,  # Установите True в продакшене с HTTPS
+            secure=False,
             samesite="lax",
             max_age=3600
         )
@@ -105,7 +124,7 @@ async def register(request: Request, data: RegisterData):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    hashed_password = pwd_context.hash(data.password)  # Хеширование пароля
+    hashed_password = pwd_context.hash(data.password)
     async with app.state.db_pool.acquire() as connection:
         async with connection.cursor() as cursor:
             await cursor.execute("SELECT * FROM users WHERE username = %s", (data.username,))
@@ -178,20 +197,13 @@ async def login(request: Request):
                 (username, True)
             )
             result = await cursor.fetchone()
-            if result and pwd_context.verify(password, result[0]):  # Проверка хешированного пароля
+            if result and pwd_context.verify(password, result[0]):
                 logger.info(f"Login successful for user: {username}")
                 return {"message": "Login successful", "role": result[1]}
             raise HTTPException(status_code=401, detail="Invalid username or password")
 
 @app.post("/api/create-bot")
-async def create_bot(request: Request):
-    data = await request.json()
-    bot_name = data.get("name")
-    bot_token = data.get("token")
-
-    if not bot_name or not bot_token:
-        raise HTTPException(status_code=400, detail="Bot name and token are required")
-
+async def create_bot(request: Request, data: BotData):
     csrf_token = request.headers.get("X-CSRF-Token")
     cookie_csrf = request.cookies.get("csrftoken")
     logger.info(f"Create Bot CSRF token received: {csrf_token}, Cookie CSRF: {cookie_csrf}")
@@ -199,8 +211,106 @@ async def create_bot(request: Request):
         logger.warning("CSRF validation failed")
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 
-    logger.info(f"Bot created: {bot_name}")
-    return {"message": f"Bot {bot_name} created successfully"}
+    logger.info(f"Bot created: {data.name}")
+    return {"message": f"Bot {data.name} created successfully", "token": data.token}
+
+@app.post("/api/check-bot-status")
+async def check_bot_status(request: Request, data: BotData):
+    csrf_token = request.headers.get("X-CSRF-Token")
+    cookie_csrf = request.cookies.get("csrftoken")
+    logger.info(f"Check Bot Status CSRF token received: {csrf_token}, Cookie CSRF: {cookie_csrf}")
+    if not csrf_token or csrf_token != cookie_csrf:
+        logger.warning("CSRF validation failed")
+        raise HTTPException(status_code=403, detail="Invalid CSRF token")
+
+    async with aiohttp.ClientSession() as session:
+        url = f"https://api.telegram.org/bot{data.token}/getMe"
+        async with session.get(url) as response:
+            result = await response.json()
+            if response.status == 200 and result.get("ok"):
+                logger.info(f"Bot {data.name} is online")
+                return {"status": "online", "bot_info": result["result"]}
+            logger.info(f"Bot {data.name} is offline")
+            return {"status": "offline", "error": result.get("description", "Unknown error")}
+
+@app.post("/api/export-apk")
+async def export_apk(request: Request, data: ExportAPKData):
+    csrf_token = request.headers.get("X-CSRF-Token")
+    cookie_csrf = request.cookies.get("csrftoken")
+    logger.info(f"Export APK CSRF token received: {csrf_token}, Cookie CSRF: {cookie_csrf}")
+    if not csrf_token or csrf_token != cookie_csrf:
+        logger.warning("CSRF validation failed")
+        raise HTTPException(status_code=403, detail="Invalid CSRF token")
+
+    # Заглушка для APK (простой Python-код в ZIP)
+    bot_code = f"""import requests
+
+TOKEN = '{data.token}'
+API_URL = 'https://api.telegram.org/bot' + TOKEN
+
+def send_message(chat_id, text):
+    requests.post(f'{{API_URL}}/sendMessage', json={{'chat_id': chat_id, 'text': text}})
+
+print('Bot APK running...')
+"""
+    apk_dir = f"apk_{data.name}"
+    os.makedirs(apk_dir, exist_ok=True)
+    with open(f"{apk_dir}/bot.py", "w") as f:
+        f.write(bot_code)
+    with open(f"{apk_dir}/AndroidManifest.xml", "w") as f:
+        f.write("<manifest><!-- Заглушка для APK --></manifest>")
+    apk_file = f"{data.name}_bot.apk"
+    with zipfile.ZipFile(apk_file, 'w') as zf:
+        zf.write(f"{apk_dir}/bot.py", "bot.py")
+        zf.write(f"{apk_dir}/AndroidManifest.xml", "AndroidManifest.xml")
+    shutil.rmtree(apk_dir)
+
+    logger.info(f"APK exported for bot: {data.name}")
+    return FileResponse(apk_file, filename=apk_file)
+
+@app.post("/api/bot-structure")
+async def bot_structure(request: Request, data: BotStructureData):
+    csrf_token = request.headers.get("X-CSRF-Token")
+    cookie_csrf = request.cookies.get("csrftoken")
+    logger.info(f"Bot Structure CSRF token received: {csrf_token}, Cookie CSRF: {cookie_csrf}")
+    if not csrf_token or csrf_token != cookie_csrf:
+        logger.warning("CSRF validation failed")
+        raise HTTPException(status_code=403, detail="Invalid CSRF token")
+
+    # Пример структуры бота
+    structure = {
+        "nodes": [
+            {"id": "start", "command": "/start", "x": 0, "y": 0, "z": 0},
+            {"id": "help", "command": "/help", "x": 5, "y": 0, "z": 0}
+        ],
+        "edges": [
+            {"from": "start", "to": "help"}
+        ]
+    }
+    logger.info(f"Bot structure generated for: {data.name}")
+    return {"structure": structure}
+
+@app.post("/api/generate-docs")
+async def generate_docs(request: Request, data: GenerateDocsData):
+    csrf_token = request.headers.get("X-CSRF-Token")
+    cookie_csrf = request.cookies.get("csrftoken")
+    logger.info(f"Generate Docs CSRF token received: {csrf_token}, Cookie CSRF: {cookie_csrf}")
+    if not csrf_token or csrf_token != cookie_csrf:
+        logger.warning("CSRF validation failed")
+        raise HTTPException(status_code=403, detail="Invalid CSRF token")
+
+    docs = f"# {data.name} Bot\n\n"
+    docs += "## Описание\nЭто Telegram-бот, созданный с помощью Telegram Bot Builder.\n\n"
+    docs += "## Команды\n"
+    for cmd in data.commands:
+        docs += f"- `{cmd}`: Описание команды (автогенерация).\n"
+    docs += "\n## Установка\n1. Установите зависимости: `pip install aiogram`\n2. Запустите бота: `python bot.py`\n"
+
+    doc_file = f"{data.name}_README.md"
+    with open(doc_file, "w") as f:
+        f.write(docs)
+    logger.info(f"Docs generated for bot: {data.name}")
+    return FileResponse(doc_file, filename=doc_file)
 
 @app.get("/")
 async def serve_index():

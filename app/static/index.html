@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -22,13 +23,17 @@
     <main>
         <button onclick="showAuthModal()">Вход</button>
         <button onclick="showRegistrationModal()">Регистрация</button>
-        <button id="generateAIButton">Добавить AI</button>
+        <button onclick="showBotCreationModal()">Создать бота</button>
+        <button id="checkBotStatusButton">Проверить статус бота</button>
+        <button id="exportAPKButton">Экспорт в APK</button>
+        <button id="previewButton">Предпросмотр 3D</button>
+        <button id="docsButton">Генерация документации</button>
     </main>
 
     <!-- Модальное окно входа -->
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('authModal')">&times;</span>
+            <span class="close" onclick="closeModal('authModal')">×</span>
             <h2>Вход</h2>
             <input type="text" id="username" placeholder="Логин">
             <input type="password" id="password" placeholder="Пароль">
@@ -40,7 +45,7 @@
     <!-- Модальное окно регистрации -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('registrationModal')">&times;</span>
+            <span class="close" onclick="closeModal('registrationModal')">×</span>
             <h2>Регистрация</h2>
             <input type="text" id="regUsername" placeholder="Логин">
             <input type="password" id="regPassword" placeholder="Пароль">
@@ -53,7 +58,7 @@
     <!-- Модальное окно верификации -->
     <div id="verifyModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('verifyModal')">&times;</span>
+            <span class="close" onclick="closeModal('verifyModal')">×</span>
             <h2>Подтверждение Email</h2>
             <input type="text" id="verificationCode" placeholder="Код подтверждения">
             <p id="verificationCodeError" class="error"></p>
@@ -64,12 +69,21 @@
     <!-- Модальное окно создания бота -->
     <div id="botCreationModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('botCreationModal')">&times;</span>
+            <span class="close" onclick="closeModal('botCreationModal')">×</span>
             <h2>Создать бота</h2>
             <input type="text" id="botName" placeholder="Имя бота">
             <input type="text" id="botToken" placeholder="Токен бота">
             <p id="botNameError" class="error"></p>
             <button onclick="createBot()">Создать</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно предпросмотра 3D -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('previewModal')">×</span>
+            <h2>Предпросмотр структуры бота в 3D</h2>
+            <div id="previewCanvas"></div>
         </div>
     </div>
 </body>
