@@ -1,3 +1,4 @@
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
@@ -128,4 +129,26 @@ input[type="color"] {
     border-radius: 5px;
     max-height: 200px;
     overflow-y: auto;
+}
+
+#statsFilters {
+    margin-bottom: 20px;
+}
+
+#statsFilters label {
+    margin-right: 15px;
+    color: #333;
+}
+
+#statsFilters input, #statsFilters select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+canvas {
+    max-width: 100%;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
 }

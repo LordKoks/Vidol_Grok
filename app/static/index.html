@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Bot Builder</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/three.min.js" defer></script>
-    <script src="/static/tween.min.js" defer></script>
-    <script src="/static/three-script.js" defer></script>
-    <script src="/static/script.js" defer></script>
 </head>
 <body>
-    <div id="backgroundCanvas"></div>
-    <header>
-        <h1>Telegram Bot Builder</h1>
-        <button id="themeToggle">
-            <span id="sun-icon">☀️</span>
-            <span id="moon-icon" class="hidden">🌙</span>
-        </button>
-    </header>
-    <main>
-        <button onclick="showModal('authModal')">Вход</button>
-        <button onclick="showModal('registrationModal')">Регистрация</button>
-        <button id="createBotButton">Создать бота</button>
-        <button id="checkStatusButton">Проверить статус</button>
-        <button id="exportAPKButton">Экспорт в APK</button>
-        <button id="previewButton">Предпросмотр 3D</button>
-        <button id="docsButton">Генерация документации</button>
-    </main>
-
+    <div id="auth-container">
+        <h1>Telegram Bot Builder 🌈</h1>
+        <div id="register-form">
+            <input type="text" id="reg-username" placeholder="Username">
+            <input type="password" id="reg-password" placeholder="Password">
+            <input type="email" id="reg-email" placeholder="Email">
+            <button id="registerBtn">Register 🌟</button>
+        </div>
+        <div id="login-form">
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button id="loginBtn">Login 🌟</button>
+        </div>
+    </div>
+    <div id="main-container" style="display: none;">
+        <h1>Welcome, <span id="username-display"></span>! 🌈</h1>
+        <button id="createBotBtn">Create Bot 🌟</button>
+        <button id="checkStatusBtn">Check Bot Status 🌟</button>
+        <button id="exportApkBtn">Export APK 🌟</button>
+        <button id="getStatsBtn">Get Stats 🌟</button>
+        <button id="exportStatsBtn">Export Stats 🌟</button>
+        <button id="logoutBtn">Logout 🌟</button>
+    </div>
     <!-- Модальное окно входа -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('authModal')">×</span>
-            <h2>Вход</h2>
+            <h2>🌟 Вход 🌟</h2>
             <input type="text" id="username" placeholder="Логин">
             <input type="password" id="password" placeholder="Пароль">
             <p id="passwordError" class="error"></p>
-            <button onclick="login()">Войти</button>
+            <button onclick="login()">Войти 🌈</button>
         </div>
     </div>
 
@@ -45,12 +45,12 @@
     <div id="registrationModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('registrationModal')">×</span>
-            <h2>Регистрация</h2>
+            <h2>🌟 Регистрация 🌟</h2>
             <input type="text" id="regUsername" placeholder="Логин">
             <input type="password" id="regPassword" placeholder="Пароль">
             <input type="email" id="regEmail" placeholder="Email">
             <p id="regUsernameError" class="error"></p>
-            <button onclick="register()">Зарегистрироваться</button>
+            <button onclick="register()">Зарегистрироваться 🌈</button>
         </div>
     </div>
 
@@ -58,10 +58,10 @@
     <div id="verifyModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('verifyModal')">×</span>
-            <h2>Подтверждение Email</h2>
+            <h2>🌟 Подтверждение Email 🌟</h2>
             <input type="text" id="verificationCode" placeholder="Код подтверждения">
             <p id="verificationCodeError" class="error"></p>
-            <button onclick="verifyEmail()">Подтвердить</button>
+            <button onclick="verifyEmail()">Подтвердить 🌈</button>
         </div>
     </div>
 
@@ -69,16 +69,17 @@
     <div id="createBotModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('createBotModal')">×</span>
-            <h2>Создать бота</h2>
+            <h2>🌟 Создать бота 🌟</h2>
             <input type="text" id="createBotName" placeholder="Имя бота">
-            <input type="text" id="createBotToken" placeholder="Токен бота (Telegram|Discord для мульти)">
+            <input type="text" id="createBotToken" placeholder="Токен бота (Telegram|Discord|WhatsApp)">
             <select id="botType">
-                <option value="telegram">Telegram</option>
-                <option value="discord">Discord</option>
-                <option value="multiplatform">Мультиплатформа</option>
+                <option value="telegram">Telegram 📩</option>
+                <option value="discord">Discord 🎮</option>
+                <option value="whatsapp">WhatsApp 📱</option>
+                <option value="multiplatform">Мультиплатформа 🌐</option>
             </select>
             <p id="createBotError" class="error"></p>
-            <button onclick="createBot()">Создать и скачать</button>
+            <button onclick="createBot()">Создать и скачать 🌈</button>
         </div>
     </div>
 
@@ -86,13 +87,14 @@
     <div id="checkStatusModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('checkStatusModal')">×</span>
-            <h2>Проверить статус бота</h2>
+            <h2>🌟 Проверить статус бота 🌟</h2>
             <select id="checkBotType">
-                <option value="telegram">Telegram</option>
-                <option value="discord">Discord</option>
-                <option value="multiplatform">Мультиплатформа</option>
+                <option value="telegram">Telegram 📩</option>
+                <option value="discord">Discord 🎮</option>
+                <option value="whatsapp">WhatsApp 📱</option>
+                <option value="multiplatform">Мультиплатформа 🌐</option>
             </select>
-            <button onclick="checkBotStatus()">Проверить</button>
+            <button onclick="checkBotStatus()">Проверить 🌈</button>
             <div id="statusResult" class="status-box"></div>
         </div>
     </div>
@@ -101,10 +103,10 @@
     <div id="exportAPKModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('exportAPKModal')">×</span>
-            <h2>Экспорт в APK</h2>
+            <h2>🌟 Экспорт в APK 🌟</h2>
             <input type="text" id="apkUITitle" placeholder="Название приложения">
             <input type="color" id="apkUIColor" value="#007bff">
-            <button onclick="exportAPK()">Экспортировать</button>
+            <button onclick="exportAPK()">Экспортировать 🌈</button>
         </div>
     </div>
 
@@ -112,7 +114,7 @@
     <div id="previewModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('previewModal')">×</span>
-            <h2>Предпросмотр структуры бота в 3D</h2>
+            <h2>🌟 Предпросмотр структуры бота в 3D 🌟</h2>
             <p>Кликните на узел для редактирования команды</p>
             <div id="previewCanvas"></div>
         </div>
@@ -122,10 +124,33 @@
     <div id="docsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('docsModal')">×</span>
-            <h2>Генерация документации</h2>
+            <h2>🌟 Генерация документации 🌟</h2>
             <input type="text" id="docCommands" placeholder="Команды (через запятую)">
             <input type="text" id="docExamples" placeholder="Примеры (через запятую)">
-            <button onclick="generateDocs()">Сгенерировать</button>
+            <button onclick="generateDocs()">Сгенерировать 🌈</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно статистики -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('statsModal')">×</span>
+            <h2>📊 Статистика ботов 📊</h2>
+            <div id="statsFilters">
+                <label>Начальная дата: <input type="date" id="startDate"></label>
+                <label>Конечная дата: <input type="date" id="endDate"></label>
+                <label>Платформа: 
+                    <select id="platformFilter">
+                        <option value="">Все платформы 🌐</option>
+                        <option value="telegram">Telegram 📩</option>
+                        <option value="discord">Discord 🎮</option>
+                        <option value="whatsapp">WhatsApp 📱</option>
+                    </select>
+                </label>
+                <button onclick="updateStats()">Обновить 📈</button>
+                <button onclick="exportStats()">Экспорт в CSV 📥</button>
+            </div>
+            <canvas id="statsChart"></canvas>
         </div>
     </div>
 </body>
