@@ -1,0 +1,226 @@
+
+let chart;
+
+async function registerUser() {
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        if (response.ok) {
+            alert('Регистрация успешна!');
+            closeModal('registerModal');
+        } else {
+            document.getElementById('registerError').textContent = (await response.json()).detail;
+        }
+    } catch (error) {
+        document.getElementById('registerError').textContent = 'Ошибка регистрации';
+    }
+}
+
+async function loginUser() {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('userId', data.user_id);
+            localStorage.setItem('token', data.token);
+            alert('Вход успешен!');
+            closeModal('loginModal');
+            showStats(data.user_id);
+        } else {
+            document.getElementById('loginError').textContent = (await response.json()).detail;
+        }
+    } catch (error) {
+        document.getElementById('loginError').textContent = 'Ошибка входа';
+    }
+}
+
+async function createBot() {
+    const botName = document.getElementById('createBotName').value;
+    const botToken = document.getElementById('createBotToken').value;
+    const botType = document.getElementById('botType').value;
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch('/create-bot', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ name: botName, token: botToken, platform: botType })
+        });
+        if (response.ok) {
+            alert('Бот успешно создан!');
+            closeModal('createBotModal');
+            showStats(localStorage.getItem('userId'));
+        } else {
+            document.getElementById('createBotError').textContent = (await response.json()).detail;
+        }
+    } catch (error) {
+        document.getElementById('createBotError').textContent = 'Ошибка создания бота';
+    }
+}
+
+async function configureAI() {
+    const botToken = document.getElementById('aiBotToken').value;
+    const aiProvider = document.getElementById('aiProvider').value;
+    const aiApiKey = document.getElementById('aiApiKey').value;
+    const customAiUrl = document.getElementById('customAiUrl').value || null;
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`/configure-ai/${botToken}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ aiProvider, aiApiKey, customAiUrl })
+        });
+        if (response.ok) {
+            alert('AI настроен!');
+            closeModal('aiConfigModal');
+        } else {
+            document.getElementById('aiConfigError').textContent = (await response.json()).detail;
+        }
+    } catch (error) {
+        document.getElementById('aiConfigError').textContent = 'Ошибка настройки AI';
+    }
+}
+
+async function logoutUser() {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`/logout/${userId}`, { 
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('token');
+            alert('Выход успешен!');
+            document.getElementById('statsContainer').innerHTML = '<canvas id="statsChart"></canvas>';
+            if (chart) chart.destroy();
+        }
+    } catch (error) {
+        console.error('Ошибка выхода:', error);
+    }
+}
+
+async function showStats(userId, startDate = null, endDate = null, platform = null) {
+    const token = localStorage.getItem('token');
+    let url = `/stats/${userId}`;
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+    if (platform) params.append('platform', platform);
+    if (params.toString()) url += `?${params.toString()}`;
+
+    try {
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+            const stats = await response.json();
+            const ctx = document.getElementById('statsChart').getContext('2d');
+            
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: stats.map(s => s.platform),
+                    datasets: [
+                        {
+                            label: 'Отправлено сообщений',
+                            data: stats.map(s => s.messages_sent),
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Получено сообщений',
+                            data: stats.map(s => s.messages_received),
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Активные пользователи',
+                            data: stats.map(s => s.active_users),
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        } else {
+            document.getElementById('statsContainer').innerHTML = 'Статистика не найдена';
+        }
+    } catch (error) {
+        console.error('Ошибка получения статистики:', error);
+    }
+}
+
+function updateStats() {
+    const userId = localStorage.getItem('userId');
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const platform = document.getElementById('platformFilter').value;
+    showStats(userId, startDate, endDate, platform);
+}
+
+async function exportStats() {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const platform = document.getElementById('platformFilter').value;
+
+    let url = `/stats/${userId}/export`;
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+    if (platform) params.append('platform', platform);
+    if (params.toString()) url += `?${params.toString()}`;
+
+    try {
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `stats_${userId}.csv`;
+            link.click();
+        } else {
+            alert('Ошибка экспорта');
+        }
+    } catch (error) {
+        console.error('Ошибка экспорта:', error);
+    }
+}
+
+function showModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}

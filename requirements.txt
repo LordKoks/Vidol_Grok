@@ -14,3 +14,7 @@ aiohttp
 passlib[bcrypt]
 requests 
 discord.py
+vk_api
+twilio
+PyJWT
+aiogram
